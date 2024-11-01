@@ -3,6 +3,9 @@ import dotenv from 'dotenv'
 import User from '~/models/schemas/User.schema'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import { envConfig } from '~/constants/config'
+import HealthTracking from '~/models/schemas/HealthTrackings.schema'
+import HealthTrackingDetail from '~/models/schemas/HealthTrackingDetails.schema'
+import { Water } from '~/models/schemas/Water.schema'
 dotenv.config()
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.dlxrr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
@@ -39,6 +42,15 @@ class DatabaseService {
 
   get users(): Collection<User> {
     return this.db.collection(envConfig.dbUsersCollection as string)
+  }
+  get healthTrackings(): Collection<HealthTracking> {
+    return this.db.collection(envConfig.dbHealthTrackingsCollection as string)
+  }
+  get healthTrackingDetails(): Collection<HealthTrackingDetail> {
+    return this.db.collection(envConfig.dbHealthTrackingDetailsCollection as string)
+  }
+  get waters(): Collection<Water> {
+    return this.db.collection(envConfig.dbWatersCollection as string)
   }
   get refreshTokens(): Collection<RefreshToken> {
     return this.db.collection(envConfig.dbRefreshTokensCollection as string)

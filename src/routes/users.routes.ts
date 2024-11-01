@@ -1,9 +1,13 @@
 import { Router } from 'express'
 import {
+  addHealthTrackingController,
+  addHealthTrackingDetailController,
+  addWaterActivityController,
   banUserController,
   changePasswordController,
   forgotPasswordController,
   getAllUserController,
+  getHealthTrackingController,
   getMeController,
   loginController,
   loginGoogleController,
@@ -217,4 +221,64 @@ usersRouter.post(
   verifiedAdminValidator,
   wrapRequestHandler(unBanUserController)
 )
+
+/**
+ * Description: View Health Activity
+ * Path: /health-tracking
+ * Method: Get
+ * Query:
+ * {
+ *  type:number; (all, water, consumed, burned),
+ *  getBy: string; (day, week, month, year),
+ *  date: string; (2021-09-01)
+ * }
+ * **/
+usersRouter.get(
+  '/health-tracking',
+  accessTokenValidator,
+  verifiedUSerValidator,
+  wrapRequestHandler(getHealthTrackingController)
+)
+/**
+ * Description: Add Health Activity
+ * Path: /health-tracking
+ * Method: Post
+ * Body: {
+ *HealthTrackingBody
+ * }
+ * **/
+usersRouter.post(
+  '/health-tracking',
+  accessTokenValidator,
+  verifiedUSerValidator,
+  wrapRequestHandler(addHealthTrackingController)
+)
+
+/**
+ * Description: Add Health Tracking Detail
+ * Path: /health-tracking-details
+ * Method: Post
+ * Body: {
+ *HealthTrackingDetailBody
+ * }
+ * **/
+usersRouter.post(
+  '/health-tracking-details',
+  accessTokenValidator,
+  verifiedUSerValidator,
+  wrapRequestHandler(addHealthTrackingDetailController)
+)
+
+/**
+ * Description: Add Water Activity
+ * Path: /waters
+ * Method: Post
+ * Body: {
+ *  date: Date
+ *  goal: number
+ *  step: number
+ * }
+ * **/
+usersRouter.post('/waters', accessTokenValidator, verifiedUSerValidator, wrapRequestHandler(addWaterActivityController))
+
 export default usersRouter

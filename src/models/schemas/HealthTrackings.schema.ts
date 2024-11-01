@@ -4,19 +4,19 @@ import HealthTrackingDetail from './HealthTrackingDetails.schema'
 
 interface IHealthTracking {
   _id?: ObjectId
-  date: Date
+  date: string
   type: HealthTrackingType
   user_id?: ObjectId
-  value: number //calories
-  target: number //calories
+  value: number // actual calories
+  target: number // expected calories
   created_at?: Date
   updated_at?: Date
-  healthTrackingDetails: HealthTrackingDetail[]
+  healthTrackingDetails?: HealthTrackingDetail[]
 }
 
 export default class HealthTracking {
   _id?: ObjectId
-  date: Date
+  date: string
   type: HealthTrackingType
   user_id?: ObjectId
   value: number
@@ -28,7 +28,7 @@ export default class HealthTracking {
   constructor(healthTracking: IHealthTracking) {
     const date = new Date()
     this._id = healthTracking._id
-    this.date = healthTracking.date || date
+    this.date = healthTracking.date
     this.type = healthTracking.type
     this.user_id = healthTracking.user_id
     this.value = healthTracking.value

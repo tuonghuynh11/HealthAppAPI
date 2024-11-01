@@ -1,11 +1,10 @@
 import { ObjectId } from 'mongodb'
-import { UserSettings, Water } from '~/constants/classes'
+import { UserSettings } from '~/constants/classes'
 import { Gender, LevelType, UserRole, UserStatus, UserVerifyStatus } from '~/constants/enums'
 import WorkoutPlans from './WorkoutPlans.schema'
 import Meals from './Meals.schema'
 import Challenges from './Challenges.schema'
 import OTP from './Otp.schema'
-import HealthTracking from './HealthTrackings.schema'
 
 // Swagger UI Express Comment Format
 
@@ -32,11 +31,11 @@ interface UserType {
   mySettings?: UserSettings
   workout_plans?: WorkoutPlans[]
   meals?: Meals[]
-  waters?: Water[]
+  waters?: ObjectId[]
   challenges?: Challenges[]
   isOnline?: boolean
   otp?: OTP
-  healthTrackings?: HealthTracking[]
+  healthTrackings?: ObjectId[]
 }
 
 export default class User {
@@ -63,11 +62,11 @@ export default class User {
   mySettings?: UserSettings
   workout_plans?: WorkoutPlans[]
   meals?: Meals[]
-  waters?: Water[]
+  waters?: ObjectId[]
   challenges?: Challenges[]
   isOnline?: boolean
   otp?: OTP
-  healthTrackings?: HealthTracking[]
+  healthTrackings?: ObjectId[]
 
   constructor(user: UserType) {
     const date = new Date()

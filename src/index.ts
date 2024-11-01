@@ -7,6 +7,7 @@ import helmet from 'helmet'
 import { initFolder } from './utils/file'
 import { versionOneRouter } from './routes/index.routes'
 import morganMiddleware from './middlewares/morgan'
+import { initCronModule } from './corn'
 const app = express()
 const PORT = envConfig.port
 
@@ -14,6 +15,7 @@ databaseService.connect().then(() => {
   databaseService.createIndexes()
 })
 initFolder()
+initCronModule()
 //Use Helmet
 app.use(helmet())
 const corsOptions: CorsOptions = {

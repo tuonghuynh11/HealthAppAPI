@@ -83,3 +83,10 @@ export const generatePassword = (length: number): string => {
 
   return password
 }
+
+export const getNowDateWithoutTime = () => {
+  //YYYY-MM-DD
+  const now = new Date()
+  const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
+  return formattedDate
+}

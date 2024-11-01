@@ -26,30 +26,3 @@ export class UserSettings {
     this.isHealth = userSetting?.isHealth || false
   }
 }
-
-interface WaterType {
-  date: Date
-  goal: number
-  step: number
-  progress: number
-  created_at?: Date
-  updated_at?: Date
-}
-
-export class Water {
-  date: Date
-  goal: number
-  step: number
-  progress: number
-  created_at?: Date
-  updated_at?: Date
-
-  constructor(waterType: WaterType) {
-    this.date = waterType.date
-    this.goal = waterType.goal
-    this.step = waterType.step
-    this.progress = waterType.progress
-    this.created_at = waterType.created_at || new Date()
-    this.updated_at = waterType.updated_at || new Date()
-  }
-}

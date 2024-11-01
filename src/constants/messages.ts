@@ -86,7 +86,12 @@ export const USERS_MESSAGES = {
   GOAL_WEIGHT_MUST_BE_A_NUMBER: 'Goal weight must be a number',
   LEVEL_MUST_BE_A_NUMBER: 'Level must be a number',
   INVALID_GENDER: 'Invalid gender',
-  INVALID_LEVEL: 'Invalid level'
+  INVALID_LEVEL: 'Invalid level',
+  GET_USER_HEALTH_TRACKING_SUCCESS: 'Get user health tracking successful',
+  UPDATE_USER_WATER_ACTIVITY_SUCCESS: 'Update user water activity successful',
+  UPDATE_HEALTH_ACTIVITY_SUCCESS: 'Update health activity successful',
+  UPDATE_HEALTH_ACTIVITY_DETAIL_SUCCESS: 'Update health activity detail successful',
+  FAILED_TO_CREATE_HEALTH_TRACKING_DETAIL: 'Failed to create health tracking detail'
 } as const
 
 export const PAGINATION_MESSAGES = {

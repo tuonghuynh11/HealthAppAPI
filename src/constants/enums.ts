@@ -121,3 +121,9 @@ export enum HealthTrackingType {
   Calories_Consumed = 'Calories Consumed',
   Calories_Burned = 'Calories Burned'
 }
+export enum HealthActivityQueryType {
+  All = 'all',
+  Water = 'water',
+  Consumed = 'consumed',
+  Burned = 'burned'
+}

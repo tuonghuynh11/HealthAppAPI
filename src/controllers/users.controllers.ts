@@ -1,9 +1,11 @@
 import { NextFunction, Request, Response } from 'express'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { ObjectId } from 'mongodb'
-import { UserRole, UserVerifyStatus } from '~/constants/enums'
+import { HealthActivityQueryType, UserRole, UserVerifyStatus } from '~/constants/enums'
 import HTTP_STATUS from '~/constants/httpStatus'
 import { USERS_MESSAGES } from '~/constants/messages'
+import { HealthTrackingBody } from '~/models/requests/HealthTracking.requests'
+import { HealthTrackingDetailBody } from '~/models/requests/HealthTrackingDetail.requests'
 import {
   BanUserReqParams,
   ChangePasswordReqBody,
@@ -19,9 +21,13 @@ import {
   VerifyForgotPasswordReqBody,
   VerifyReqReqBody
 } from '~/models/requests/User.requests'
+import { WaterBody } from '~/models/requests/Water.requests'
 import User from '~/models/schemas/User.schema'
 import databaseService from '~/services/database.services'
+import healthTrackingService from '~/services/healthTracking.services'
+import healthTrackingDetailService from '~/services/healthTrackingDetail.services'
 import userService from '~/services/users.services'
+import waterService from '~/services/water.services'
 
 export const loginController = async (req: Request<ParamsDictionary, any, LoginReqBody>, res: Response) => {
   const user = req.user as User
@@ -230,5 +236,50 @@ export const getAllUserController = async (req: Request<ParamsDictionary, any, a
       total_items: total,
       total_pages: Math.ceil(total / limit)
     }
+  })
+}
+export const getHealthTrackingController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
+  const { user_id } = req.decoded_authorization as TokenPayload
+
+  const type = req.query.type as HealthActivityQueryType
+  const date = req.query.date!.toString()
+  const { water, consumed, burned } = await userService.getHealthActivity({ type, date, user_id })
+  return res.json({
+    message: USERS_MESSAGES.GET_USER_HEALTH_TRACKING_SUCCESS,
+    result: {
+      water,
+      consumed,
+      burned
+    }
+  })
+}
+export const addWaterActivityController = async (req: Request<ParamsDictionary, any, WaterBody>, res: Response) => {
+  const { user_id } = req.decoded_authorization as TokenPayload
+
+  await waterService.add({ user_id, water: req.body })
+  return res.json({
+    message: USERS_MESSAGES.UPDATE_USER_WATER_ACTIVITY_SUCCESS
+  })
+}
+export const addHealthTrackingController = async (
+  req: Request<ParamsDictionary, any, HealthTrackingBody>,
+  res: Response
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload
+
+  await healthTrackingService.add({ user_id, healthTracking: req.body })
+  return res.json({
+    message: USERS_MESSAGES.UPDATE_HEALTH_ACTIVITY_SUCCESS
+  })
+}
+export const addHealthTrackingDetailController = async (
+  req: Request<ParamsDictionary, any, HealthTrackingDetailBody>,
+  res: Response
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload
+
+  await healthTrackingDetailService.add({ user_id, healthTrackingDetail: req.body })
+  return res.json({
+    message: USERS_MESSAGES.UPDATE_HEALTH_ACTIVITY_DETAIL_SUCCESS
   })
 }

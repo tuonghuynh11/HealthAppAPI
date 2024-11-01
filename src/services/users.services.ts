@@ -3,7 +3,7 @@ import databaseService from './database.services'
 import { RegisterReqBody, UpdateMeReqBody } from '~/models/requests/User.requests'
 import { hashPassword } from '~/utils/crypto'
 import { signToken, verifyToken } from '~/utils/jwt'
-import { TokenType, UserRole, UserStatus, UserVerifyStatus } from '~/constants/enums'
+import { HealthTrackingType, TokenType, UserRole, UserStatus, UserVerifyStatus } from '~/constants/enums'
 import { envConfig } from '~/constants/config'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import { ObjectId } from 'mongodb'
@@ -638,6 +638,98 @@ class UserService {
         users: users,
         total: totalUsers.length
       }
+    }
+  }
+  async getHealthActivity({ type, date, user_id }: { type: string; date: string; user_id: string }) {
+    //date
+    // Get By Year: "2021"
+    // Get By Month: "2021-09"
+    // Get By Day: "2021-09-01"
+    const healthTrackings = await databaseService.users
+      .aggregate([
+        {
+          $match: {
+            _id: new ObjectId(user_id)
+          }
+        },
+        {
+          $lookup: {
+            from: 'health_trackings',
+            localField: 'healthTrackings',
+            foreignField: '_id',
+            as: 'healthTrackings',
+            pipeline: [
+              {
+                $match: {
+                  date: {
+                    $regex: date,
+                    $options: 'i'
+                  }
+                }
+              }
+            ]
+          }
+        },
+        { $project: { healthTrackings: 1, _id: 0 } },
+        { $unwind: { path: '$healthTrackings' } },
+        {
+          $replaceRoot: {
+            newRoot: '$healthTrackings'
+          }
+        }
+      ])
+      .toArray()
+    let water = null
+    const consumed: any = {}
+    const burned: any = {}
+
+    if (type === 'all') {
+      const temp1 = healthTrackings.find((item: any) => item.type === HealthTrackingType.Calories_Consumed)
+      const temp2 = healthTrackings.find((item: any) => item.type === HealthTrackingType.Calories_Burned)
+
+      consumed._id = temp1?._id.toString() // Health Tracking ID
+      consumed.target = temp1?.target
+      consumed.value = temp1?.value
+      consumed.date = temp1?.date
+
+      burned._id = temp2?._id.toString() // Health Tracking ID
+      burned.target = temp2?.target
+      burned.value = temp2?.value
+      burned.date = temp2?.date
+
+      water = await databaseService.waters.findOne({
+        user_id: new ObjectId(user_id),
+        date: {
+          $regex: date,
+          $options: 'i'
+        }
+      })
+    } else if (type === 'water') {
+      water = await databaseService.waters.findOne({
+        user_id: new ObjectId(user_id),
+        date: {
+          $regex: date,
+          $options: 'i'
+        }
+      })
+    } else if (type === 'consumed') {
+      const temp1 = healthTrackings.find((item: any) => item.type === HealthTrackingType.Calories_Consumed)
+      consumed._id = temp1?._id.toString() // Health Tracking ID
+      consumed.target = temp1?.target
+      consumed.value = temp1?.value
+      consumed.date = temp1?.date
+    } else {
+      const temp2 = healthTrackings.find((item: any) => item.type === HealthTrackingType.Calories_Burned)
+      burned._id = temp2?._id.toString() // Health Tracking ID
+      burned.target = temp2?.target
+      burned.value = temp2?.value
+      burned.date = temp2?.date
+    }
+
+    return {
+      water,
+      consumed,
+      burned
     }
   }
 }
