@@ -4,7 +4,7 @@ import databaseService from '~/services/database.services'
 import { getNowDateWithoutTime } from '~/utils/commons'
 
 export const healthTrackingAuto = async () => {
-  const { date, goal, step }: any = {
+  const { date, value, target }: any = {
     date: getNowDateWithoutTime(),
     value: 0,
     target: 0
@@ -24,8 +24,8 @@ export const healthTrackingAuto = async () => {
           user_id: user._id,
           date,
           type: HealthTrackingType.Calories_Burned,
-          value: 0,
-          target: 0
+          value,
+          target
         })
       })
     ),
@@ -35,8 +35,8 @@ export const healthTrackingAuto = async () => {
           user_id: user._id,
           date,
           type: HealthTrackingType.Calories_Consumed,
-          value: 0,
-          target: 0
+          value,
+          target
         })
       })
     )
