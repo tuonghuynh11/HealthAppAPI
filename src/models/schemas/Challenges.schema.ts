@@ -1,5 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { ChallengeStatus, ChallengeTarget, ChallengeType } from '~/constants/enums'
+import Meals from './Meals.schema'
+import WorkoutPlans from './WorkoutPlans.schema'
 
 interface IChallenges {
   _id?: ObjectId
@@ -18,6 +20,8 @@ interface IChallenges {
   end_date: Date
   created_at?: Date
   updated_at?: Date
+  meal?: Meals
+  workout_plan?: WorkoutPlans
 }
 
 export default class Challenges {
@@ -37,6 +41,8 @@ export default class Challenges {
   end_date: Date
   created_at?: Date
   updated_at?: Date
+  meal?: Meals
+  workout_plan?: WorkoutPlans
 
   constructor(challenge: IChallenges) {
     const date = new Date()
@@ -56,5 +62,7 @@ export default class Challenges {
     this.end_date = challenge.end_date
     this.created_at = challenge.created_at || date
     this.updated_at = challenge.updated_at || date
+    this.meal = challenge.meal
+    this.workout_plan = challenge.workout_plan
   }
 }

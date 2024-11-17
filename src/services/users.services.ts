@@ -415,7 +415,7 @@ class UserService {
   }
 
   async forgotPassword({ user_id, email }: { user_id: string; email: string }) {
-    const otpCode = generateOTP(6)
+    const otpCode = generateOTP(4)
     await databaseService.users.updateOne(
       {
         _id: new ObjectId(user_id)

@@ -1,7 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { GeneralStatus, WorkoutType } from '~/constants/enums'
 import WorkoutPlanDetail from './WorkoutPlanDetails.schema'
-import Challenges from './Challenges.schema'
 
 interface WorkoutPlanType {
   _id?: ObjectId
@@ -11,7 +10,6 @@ interface WorkoutPlanType {
   number_of_set: number
   estimated_calories_burned: number
   status?: GeneralStatus
-  challenge?: Challenges
   type: WorkoutType
   start_date?: Date
   end_date?: Date
@@ -28,7 +26,6 @@ export default class WorkoutPlans {
   number_of_set: number
   estimated_calories_burned: number
   status?: GeneralStatus
-  challenge?: Challenges
   type: WorkoutType
   start_date?: Date
   end_date?: Date
@@ -43,7 +40,6 @@ export default class WorkoutPlans {
     this.name = workoutPlan.name
     this.description = workoutPlan.description
     this.status = workoutPlan.status || GeneralStatus.Undone
-    this.challenge = workoutPlan.challenge
     this.type = workoutPlan.type
     this.start_date = workoutPlan.start_date
     this.end_date = workoutPlan.end_date
