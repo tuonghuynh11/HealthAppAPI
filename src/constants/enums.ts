@@ -127,3 +127,15 @@ export enum HealthActivityQueryType {
   Consumed = 'consumed',
   Burned = 'burned'
 }
+
+export enum MealQueryType {
+  All = 'All',
+  Breakfast = 'Breakfast',
+  Lunch = 'Lunch',
+  Dinner = 'Dinner'
+}
+export enum MealQueryTypeFilter {
+  All = 'All',
+  System = 'System',
+  Me = 'Me'
+}

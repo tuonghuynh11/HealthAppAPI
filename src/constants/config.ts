@@ -10,7 +10,9 @@ export const envConfig = {
   dbHealthTrackingsCollection: process.env.DB_HEALTH_TRACKING_COLLECTION as string,
   dbHealthTrackingDetailsCollection: process.env.DB_HEALTH_TRACKING_DETAIL_COLLECTION as string,
   dbWatersCollection: process.env.DB_WATER_COLLECTION as string,
+  dbMealsCollection: process.env.DB_MEAL_COLLECTION as string,
   dbRefreshTokensCollection: process.env.DB_REFRESH_TOKENS_COLLECTION as string,
+  dbChallengesCollection: process.env.DB_CHALLENGES_COLLECTION as string,
 
   passwordSecret: process.env.PASSWORD_SECRET as string,
   jwtSecretAccessToken: process.env.JWT_SECRET_ACCESS_TOKEN as string,

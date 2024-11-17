@@ -98,3 +98,20 @@ export const PAGINATION_MESSAGES = {
   PAGE_SIZE_MAXIMUM_IS_100_AND_MINIMAL_IS_ONE: 'Page size maximum is 100 and minimal is one',
   PAGE_IS_ALWAYS_GREATER_THAN_OR_EQUAL_TO_ONE: 'Page is always greater than or equal to one'
 }
+export const MEALS_MESSAGES = {
+  ADD_MEAL_SUCCESS: 'Add meal successful',
+  UPDATE_MEAL_SUCCESS: 'Update meal successful',
+  MEAL_NOT_FOUND: 'Meal not found',
+  NO_UPDATE_PERMISSION: 'You do not have permission to update this meal',
+  NO_DELETE_PERMISSION: 'You do not have permission to delete this meal',
+  MEAL_ALREADY_USED: 'This meal is being used by other users or challenges so you cannot delete it',
+  DELETE_MEAL_SUCCESS: 'Delete meal successful',
+  GET_MEAL_SUCCESS: 'Get meal successful',
+  NO_GET_PERMISSION: 'You do not have permission to get this meal information',
+  INVALID_MEAL_TYPE: 'Invalid meal type',
+  INVALID_MEAL_TYPE_FILTER: 'Invalid meal type filter'
+}
+
+export const DATE_MESSAGES = {
+  INVALID_DATE: 'INVALID date'
+}
