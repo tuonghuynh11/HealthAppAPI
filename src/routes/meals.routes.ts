@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
   addMealController,
+  cloneMealController,
   deleteMealController,
   getMealByIdController,
   getMealsByDateController,
@@ -56,6 +57,18 @@ mealsRouter.get('/:meal_id', accessTokenValidator, verifiedUSerValidator, wrapRe
  * }
  * **/
 mealsRouter.post('/', accessTokenValidator, verifiedUSerValidator, wrapRequestHandler(addMealController))
+/**
+ * Description: Clone a System Meal
+ * Path: /meals/clone
+ * Method: Post
+ * Body: [Meal_Id]
+ * **/
+mealsRouter.post(
+  '/:meal_id:clone',
+  accessTokenValidator,
+  verifiedUSerValidator,
+  wrapRequestHandler(cloneMealController)
+)
 
 /**
  * Description: Update Meal

@@ -109,7 +109,8 @@ export const MEALS_MESSAGES = {
   GET_MEAL_SUCCESS: 'Get meal successful',
   NO_GET_PERMISSION: 'You do not have permission to get this meal information',
   INVALID_MEAL_TYPE: 'Invalid meal type',
-  INVALID_MEAL_TYPE_FILTER: 'Invalid meal type filter'
+  INVALID_MEAL_TYPE_FILTER: 'Invalid meal type filter',
+  CLONE_MEAL_SUCCESS: 'Clone meal successful'
 }
 
 export const DATE_MESSAGES = {

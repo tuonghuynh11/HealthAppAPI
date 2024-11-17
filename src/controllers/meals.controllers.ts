@@ -58,6 +58,16 @@ export const addMealController = async (req: Request<ParamsDictionary, any, Meal
     meal: result
   })
 }
+export const cloneMealController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
+  const { user_id, role } = req.decoded_authorization as TokenPayload
+  const meal_ids = req.body.meal_ids
+  const result = await mealService.clone({ user_id, role, meal_ids })
+
+  return res.json({
+    message: MEALS_MESSAGES.CLONE_MEAL_SUCCESS,
+    meal: result
+  })
+}
 export const updateMealController = async (req: Request<ParamsDictionary, any, MealReqBody>, res: Response) => {
   const { user_id, role } = req.decoded_authorization as TokenPayload
   const meal_id = req.params.meal_id

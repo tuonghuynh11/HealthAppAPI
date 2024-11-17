@@ -4,6 +4,7 @@ import { MealReqBody } from '~/models/requests/Meal.requests'
 import Meals from '~/models/schemas/Meals.schema'
 import { MealQueryType, MealQueryTypeFilter, MealType, UserRole } from '~/constants/enums'
 import { MEALS_MESSAGES } from '~/constants/messages'
+import { omit } from 'lodash'
 
 class MealService {
   async getAll({
@@ -46,7 +47,6 @@ class MealService {
         conditions.user_id = new ObjectId(user_id)
       }
     }
-    console.dir('conditions: ' + JSON.stringify(conditions))
 
     const meals = await databaseService.meals
       .find(conditions, {
@@ -137,6 +137,36 @@ class MealService {
       ...newMeal,
       _id: mealInserted.insertedId
     }
+  }
+  async clone({ user_id, meal_ids, role }: { user_id: string; role: UserRole; meal_ids: string[] }) {
+    const meals = await databaseService.meals
+      .find({
+        _id: {
+          $in: meal_ids.map((meal_id) => new ObjectId(meal_id))
+        }
+      })
+      .toArray()
+    const newMeals = meals.map((meal: Meals) => {
+      return new Meals({
+        ...omit(meal, ['_id', 'user_id']),
+        user_id: new ObjectId(user_id),
+        date: meal.date.toISOString()
+      })
+    })
+    const { insertedIds, insertedCount } = await databaseService.meals.insertMany(newMeals)
+    const newMealIds: ObjectId[] = Object.values(insertedIds).map((id) => new ObjectId(id))
+
+    await databaseService.users.updateOne(
+      {
+        _id: new ObjectId(user_id)
+      },
+      {
+        $push: {
+          meals: { $each: newMealIds }
+        }
+      }
+    )
+    return newMeals
   }
 
   async update({
