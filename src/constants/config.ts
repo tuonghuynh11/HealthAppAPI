@@ -13,6 +13,8 @@ export const envConfig = {
   dbMealsCollection: process.env.DB_MEAL_COLLECTION as string,
   dbRefreshTokensCollection: process.env.DB_REFRESH_TOKENS_COLLECTION as string,
   dbChallengesCollection: process.env.DB_CHALLENGES_COLLECTION as string,
+  dbExercisesCollection: process.env.DB_EXERCISES_COLLECTION as string,
+  dbSetExercisesCollection: process.env.DB_SET_EXERCISES_COLLECTION as string,
 
   passwordSecret: process.env.PASSWORD_SECRET as string,
   jwtSecretAccessToken: process.env.JWT_SECRET_ACCESS_TOKEN as string,

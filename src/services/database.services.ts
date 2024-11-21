@@ -8,6 +8,8 @@ import HealthTrackingDetail from '~/models/schemas/HealthTrackingDetails.schema'
 import { Water } from '~/models/schemas/Water.schema'
 import Meals from '~/models/schemas/Meals.schema'
 import Challenges from '~/models/schemas/Challenges.schema'
+import Exercises from '~/models/schemas/Exercises.schema'
+import SetExercises from '~/models/schemas/SetExercises.schema'
 dotenv.config()
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.dlxrr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
@@ -62,6 +64,12 @@ class DatabaseService {
   }
   get challenges(): Collection<Challenges> {
     return this.db.collection(envConfig.dbChallengesCollection as string)
+  }
+  get exercises(): Collection<Exercises> {
+    return this.db.collection(envConfig.dbExercisesCollection as string)
+  }
+  get set_exercises(): Collection<SetExercises> {
+    return this.db.collection(envConfig.dbSetExercisesCollection as string)
   }
 }
 const databaseService = new DatabaseService()

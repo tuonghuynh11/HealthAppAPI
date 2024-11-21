@@ -231,8 +231,8 @@ export const getAllUserController = async (req: Request<ParamsDictionary, any, a
     message: USERS_MESSAGES.GET_ALL_USERS_SUCCESS,
     result: {
       users: users,
-      page: page,
-      limit: limit,
+      page: Number(page),
+      limit: Number(limit),
       total_items: total,
       total_pages: Math.ceil(total / limit)
     }
