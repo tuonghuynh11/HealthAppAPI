@@ -116,3 +116,19 @@ export const MEALS_MESSAGES = {
 export const DATE_MESSAGES = {
   INVALID_DATE: 'INVALID date'
 }
+
+export const EXERCISE_MESSAGES = {
+  ADD_EXERCISE_SUCCESS: 'Add exercise successful',
+  UPDATE_EXERCISE_SUCCESS: 'Update exercise successful',
+  EXERCISE_NOT_FOUND: 'Exercise not found',
+  NO_UPDATE_PERMISSION: 'You do not have permission to update this exercise',
+  NO_DELETE_PERMISSION: 'You do not have permission to delete this exercise',
+  EXERCISE_ALREADY_USED: 'This exercise is being used by other users or challenges so you cannot delete it',
+  DELETE_EXERCISE_SUCCESS: 'Delete exercise successful',
+  GET_EXERCISE_SUCCESS: 'Get exercise successful',
+  NO_GET_PERMISSION: 'You do not have permission to get this exercise information',
+  INVALID_EXERCISE_TYPE: 'Invalid exercise type',
+  EXERCISE_EXISTS: 'Exercise already exists',
+  GET_ALL_EXERCISE_SUCCESS: 'Get all exercise successful',
+  EXERCISE_IS_USED: 'Exercise is used'
+}

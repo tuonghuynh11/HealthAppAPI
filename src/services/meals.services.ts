@@ -48,17 +48,20 @@ class MealService {
       }
     }
 
-    const meals = await databaseService.meals
-      .find(conditions, {
-        skip: page && limit ? (page - 1) * limit : undefined,
-        limit: limit,
-        sort: {
-          [sort_by]: order_by === 'ASC' ? 1 : -1
-        }
-      })
-      .toArray()
+    const [meals, total] = await Promise.all([
+      databaseService.meals
+        .find(conditions, {
+          skip: page && limit ? (page - 1) * limit : undefined,
+          limit: limit,
+          sort: {
+            [sort_by]: order_by === 'ASC' ? 1 : -1
+          }
+        })
+        .toArray(),
+      await databaseService.meals.countDocuments(conditions)
+    ])
 
-    return meals
+    return { meals, total }
   }
   async getById({ meal_id, user_id, role }: { meal_id: string; user_id?: string; role: UserRole }) {
     const meal = await databaseService.meals.findOne({

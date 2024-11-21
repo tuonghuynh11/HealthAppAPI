@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb'
 import { GeneralStatus, SetType } from '~/constants/enums'
-import Exercise from './Exercises.schema'
+import SetExercises from './SetExercises.schema'
 
 interface ISet {
   _id?: ObjectId
@@ -13,7 +13,7 @@ interface ISet {
   rating: number
   created_at?: Date
   updated_at?: Date
-  exercises: Exercise[]
+  set_exercises: SetExercises[]
 }
 
 export default class Sets {
@@ -27,7 +27,7 @@ export default class Sets {
   rating: number
   created_at?: Date
   updated_at?: Date
-  exercises: Exercise[]
+  set_exercises: SetExercises[]
 
   constructor(set: ISet) {
     const date = new Date()
@@ -41,6 +41,6 @@ export default class Sets {
     this.rating = set.rating || 0
     this.created_at = set.created_at || date
     this.updated_at = set.updated_at || date
-    this.exercises = set.exercises || []
+    this.set_exercises = set.set_exercises || []
   }
 }

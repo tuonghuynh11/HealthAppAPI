@@ -139,3 +139,8 @@ export enum MealQueryTypeFilter {
   System = 'System',
   Me = 'Me'
 }
+export enum ExerciseQueryTypeFilter {
+  All = 'All',
+  Cardio = 'Cardio',
+  Strength = 'Strength'
+}
