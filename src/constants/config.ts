@@ -15,6 +15,8 @@ export const envConfig = {
   dbChallengesCollection: process.env.DB_CHALLENGES_COLLECTION as string,
   dbExercisesCollection: process.env.DB_EXERCISES_COLLECTION as string,
   dbSetExercisesCollection: process.env.DB_SET_EXERCISES_COLLECTION as string,
+  dbSetsCollection: process.env.DB_SETS_COLLECTION as string,
+  dbWorkoutPlanDetailsCollection: process.env.DB_WORKOUT_PLAN_DETAILS_COLLECTION as string,
 
   passwordSecret: process.env.PASSWORD_SECRET as string,
   jwtSecretAccessToken: process.env.JWT_SECRET_ACCESS_TOKEN as string,

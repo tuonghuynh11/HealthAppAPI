@@ -134,7 +134,8 @@ export enum MealQueryType {
   Lunch = 'Lunch',
   Dinner = 'Dinner'
 }
-export enum MealQueryTypeFilter {
+
+export enum RoleTypeQueryFilter {
   All = 'All',
   System = 'System',
   Me = 'Me'

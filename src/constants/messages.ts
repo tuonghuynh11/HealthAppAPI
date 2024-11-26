@@ -132,3 +132,26 @@ export const EXERCISE_MESSAGES = {
   GET_ALL_EXERCISE_SUCCESS: 'Get all exercise successful',
   EXERCISE_IS_USED: 'Exercise is used'
 }
+
+export const SETS_MESSAGES = {
+  ADD_SET_SUCCESS: 'Add set successful',
+  UPDATE_SET_SUCCESS: 'Update set successful',
+  SET_NOT_FOUND: 'Set not found',
+  NO_UPDATE_PERMISSION: 'You do not have permission to update this set',
+  NO_DELETE_PERMISSION: 'You do not have permission to delete this set',
+  SET_ALREADY_USED: 'This set is being used by other users or challenges so you cannot delete it',
+  DELETE_SET_SUCCESS: 'Delete set successful',
+  GET_SET_SUCCESS: 'Get set successful',
+  NO_GET_PERMISSION: 'You do not have permission to get this set information',
+  INVALID_SET_TYPE: 'Invalid set type',
+  SET_EXISTS: 'Set already exists',
+  GET_ALL_SET_SUCCESS: 'Get all set successful',
+  SET_IS_USED: 'Set is used',
+  INVALID_SET_STATUS: 'Invalid set status',
+  INVALID_NUMBER_OF_EXERCISES: 'Invalid number of exercises',
+  SET_NAME_EXISTS: 'Set name already exists'
+}
+
+export const FILTER_MESSAGES = {
+  INVALID_ROLE_TYPE: 'Invalid role type'
+}

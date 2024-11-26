@@ -1,4 +1,4 @@
-import { MealQueryType, MealQueryTypeFilter, MealType } from '~/constants/enums'
+import { MealQueryType, MealType, RoleTypeQueryFilter } from '~/constants/enums'
 import Dishes from '../schemas/Dishes.schema'
 import { PaginationReqQuery } from './Pagination.requests'
 import { Filter } from './Index.request'
@@ -13,6 +13,6 @@ export interface MealReqBody {
   dishes: Dishes[]
 }
 export interface MealReqQuery extends PaginationReqQuery, Filter {
-  type: MealQueryTypeFilter
+  type: RoleTypeQueryFilter
   meal_type: MealQueryType
 }

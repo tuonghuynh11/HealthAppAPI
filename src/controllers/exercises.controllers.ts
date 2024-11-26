@@ -58,7 +58,7 @@ export const getExerciseByIdController = async (req: Request<ParamsDictionary, a
   const result = await exerciseService.getById({ id })
 
   return res.json({
-    message: EXERCISE_MESSAGES.UPDATE_EXERCISE_SUCCESS,
+    message: EXERCISE_MESSAGES.GET_EXERCISE_SUCCESS,
     exercise: result
   })
 }

@@ -7,6 +7,7 @@ import YAML from 'yaml'
 import fs from 'fs'
 import mealsRouter from './meals.routes'
 import exercisesRouter from './exercises.routes'
+import setsRouter from './sets.routes'
 
 const file = fs.readFileSync(path.resolve('slda-swagger.yaml'), 'utf8')
 const swaggerDocument = YAML.parse(file)
@@ -17,5 +18,6 @@ versionOneRouter.use('/users', usersRouter)
 versionOneRouter.use('/medias', mediaRouter)
 versionOneRouter.use('/meals', mealsRouter)
 versionOneRouter.use('/exercises', exercisesRouter)
+versionOneRouter.use('/sets', setsRouter)
 
 export { versionOneRouter }
