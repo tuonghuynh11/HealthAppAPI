@@ -1,10 +1,9 @@
 import { ObjectId } from 'mongodb'
 import { GeneralStatus } from '~/constants/enums'
-import Set from './Sets.schema'
 
 interface WorkoutPlanDetailType {
   _id?: ObjectId
-  sets: Set[]
+  sets: ObjectId[]
   day: number
   week: number
   status: GeneralStatus
@@ -14,7 +13,7 @@ interface WorkoutPlanDetailType {
 
 export default class WorkoutPlanDetails {
   _id?: ObjectId
-  sets: Set[]
+  sets: ObjectId[]
   day: number
   week: number
   status: GeneralStatus

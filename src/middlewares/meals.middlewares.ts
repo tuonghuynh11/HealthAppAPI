@@ -1,6 +1,6 @@
 import { checkSchema } from 'express-validator'
-import { MealQueryType, MealQueryTypeFilter } from '~/constants/enums'
-import { MEALS_MESSAGES } from '~/constants/messages'
+import { MealQueryType, RoleTypeQueryFilter } from '~/constants/enums'
+import { FILTER_MESSAGES, MEALS_MESSAGES } from '~/constants/messages'
 import { validate } from '~/utils/validation'
 
 export const mealsSearchValidator = validate(
@@ -16,8 +16,8 @@ export const mealsSearchValidator = validate(
         notEmpty: true,
         isString: true,
         isIn: {
-          options: [MealQueryTypeFilter],
-          errorMessage: MEALS_MESSAGES.INVALID_MEAL_TYPE_FILTER
+          options: [RoleTypeQueryFilter],
+          errorMessage: FILTER_MESSAGES.INVALID_ROLE_TYPE
         }
       },
       meal_type: {

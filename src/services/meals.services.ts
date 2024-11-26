@@ -2,7 +2,7 @@ import { ObjectId } from 'mongodb'
 import databaseService from './database.services'
 import { MealReqBody } from '~/models/requests/Meal.requests'
 import Meals from '~/models/schemas/Meals.schema'
-import { MealQueryType, MealQueryTypeFilter, MealType, UserRole } from '~/constants/enums'
+import { MealQueryType, MealType, RoleTypeQueryFilter, UserRole } from '~/constants/enums'
 import { MEALS_MESSAGES } from '~/constants/messages'
 import { omit } from 'lodash'
 
@@ -20,7 +20,7 @@ class MealService {
   }: {
     search?: string
     meal_type: MealQueryType
-    type: MealQueryTypeFilter
+    type: RoleTypeQueryFilter
     page?: number
     limit?: number
     user_id?: string
@@ -40,8 +40,8 @@ class MealService {
       conditions.meal_type = meal_type
     }
 
-    if (type !== MealQueryTypeFilter.All) {
-      if (type === MealQueryTypeFilter.System) {
+    if (type !== RoleTypeQueryFilter.All) {
+      if (type === RoleTypeQueryFilter.System) {
         conditions.user_id = undefined
       } else {
         conditions.user_id = new ObjectId(user_id)

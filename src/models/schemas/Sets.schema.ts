@@ -6,11 +6,11 @@ interface ISet {
   _id?: ObjectId
   name: string
   type: SetType
-  description: string
+  description?: string
   user_id?: ObjectId
-  number_of_exercise: number
+  number_of_exercises: number
   status?: GeneralStatus
-  rating: number
+  rating?: number
   created_at?: Date
   updated_at?: Date
   set_exercises: SetExercises[]
@@ -20,11 +20,11 @@ export default class Sets {
   _id?: ObjectId
   name: string
   type: SetType
-  description: string
+  description?: string
   user_id?: ObjectId
-  number_of_exercise: number
+  number_of_exercises: number
   status?: GeneralStatus
-  rating: number
+  rating?: number
   created_at?: Date
   updated_at?: Date
   set_exercises: SetExercises[]
@@ -36,7 +36,7 @@ export default class Sets {
     this.type = set.type
     this.description = set.description
     this.user_id = set.user_id
-    this.number_of_exercise = set.number_of_exercise
+    this.number_of_exercises = set.number_of_exercises
     this.status = set.status || GeneralStatus.Undone
     this.rating = set.rating || 0
     this.created_at = set.created_at || date

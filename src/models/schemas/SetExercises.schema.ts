@@ -1,10 +1,9 @@
 import { ObjectId } from 'mongodb'
 import { GeneralStatus } from '~/constants/enums'
-import Exercise from './Exercises.schema'
 
-interface SetExercisesType {
+export interface SetExercisesType {
   _id?: ObjectId
-  exercises: Exercise
+  exercise_id: string
   duration: number // seconds
   reps: number
   round: number
@@ -17,7 +16,7 @@ interface SetExercisesType {
 
 export default class SetExercises {
   _id?: ObjectId
-  exercises: Exercise
+  exercise_id: ObjectId
   duration: number // seconds
   reps: number
   round: number
@@ -30,7 +29,7 @@ export default class SetExercises {
   constructor(setExercises: SetExercisesType) {
     const date = new Date()
     this._id = setExercises._id
-    this.exercises = setExercises.exercises
+    this.exercise_id = new ObjectId(setExercises.exercise_id)
     this.duration = setExercises.duration
     this.reps = setExercises.reps
     this.round = setExercises.round
