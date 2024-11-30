@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
   addSetController,
+  cloneSetController,
   deleteSetsController,
   getSetByIdController,
   searchSetsController,
@@ -92,4 +93,11 @@ setsRouter.patch(
  * **/
 setsRouter.delete('/:id', accessTokenValidator, verifiedUSerValidator, wrapRequestHandler(deleteSetsController))
 
+/**
+ * Description: Clone a System set
+ * Path: /clone
+ * Method: Post
+ * Body: [set_Id]
+ * **/
+setsRouter.post('/clone', accessTokenValidator, verifiedUSerValidator, wrapRequestHandler(cloneSetController))
 export default setsRouter

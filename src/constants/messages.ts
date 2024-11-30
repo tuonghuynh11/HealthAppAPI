@@ -130,7 +130,8 @@ export const EXERCISE_MESSAGES = {
   INVALID_EXERCISE_TYPE: 'Invalid exercise type',
   EXERCISE_EXISTS: 'Exercise already exists',
   GET_ALL_EXERCISE_SUCCESS: 'Get all exercise successful',
-  EXERCISE_IS_USED: 'Exercise is used'
+  EXERCISE_IS_USED: 'Exercise is used',
+  EXERCISE_NOT_EXISTS: 'Exercise not exists'
 }
 
 export const SETS_MESSAGES = {
@@ -149,9 +150,28 @@ export const SETS_MESSAGES = {
   SET_IS_USED: 'Set is used',
   INVALID_SET_STATUS: 'Invalid set status',
   INVALID_NUMBER_OF_EXERCISES: 'Invalid number of exercises',
-  SET_NAME_EXISTS: 'Set name already exists'
+  SET_NAME_EXISTS: 'Set name already exists',
+  CLONE_SETS_SUCCESS: 'Clone sets successful'
 }
 
 export const FILTER_MESSAGES = {
   INVALID_ROLE_TYPE: 'Invalid role type'
+}
+
+export const SET_EXERCISE_MESSAGES = {
+  ADD_SET_EXERCISE_SUCCESS: 'Add set exercise successful',
+  UPDATE_SET_EXERCISE_SUCCESS: 'Update set exercise successful',
+  SET_EXERCISE_NOT_FOUND: 'Set exercise not found',
+  NO_UPDATE_PERMISSION: 'You do not have permission to update this set exercise',
+  NO_DELETE_PERMISSION: 'You do not have permission to delete this set exercise',
+  SET_EXERCISE_ALREADY_USED: 'This set exercise is being used by other users or challenges so you cannot delete it',
+  DELETE_SET_EXERCISE_SUCCESS: 'Delete set exercise successful',
+  GET_SET_EXERCISE_SUCCESS: 'Get set exercise successful',
+  NO_GET_PERMISSION: 'You do not have permission to get this set exercise information',
+  INVALID_SET_EXERCISE_TYPE: 'Invalid set exercise type',
+  SET_EXERCISE_EXISTS: 'Set exercise already exists',
+  GET_ALL_SET_EXERCISE_SUCCESS: 'Get all set exercise successful',
+  SET_EXERCISE_IS_USED: 'Set exercise is used',
+  INVALID_SET_EXERCISE_STATUS: 'Invalid set exercise status',
+  NO_ADD_PERMISSIONS: 'You do not have permission to add this set exercise'
 }
