@@ -64,7 +64,7 @@ mealsRouter.post('/', accessTokenValidator, verifiedUSerValidator, wrapRequestHa
  * Body: [Meal_Id]
  * **/
 mealsRouter.post(
-  '/:meal_id:clone',
+  '/:meal_id/clone',
   accessTokenValidator,
   verifiedUSerValidator,
   wrapRequestHandler(cloneMealController)

@@ -72,3 +72,13 @@ export const deleteSetsController = async (req: Request<ParamsDictionary, any, a
     message: SETS_MESSAGES.DELETE_SET_SUCCESS
   })
 }
+export const cloneSetController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
+  const { user_id, role } = req.decoded_authorization as TokenPayload
+  const set_ids = req.body.set_ids
+  const result = await setService.clone({ user_id, role, set_ids })
+
+  return res.json({
+    message: SETS_MESSAGES.CLONE_SETS_SUCCESS,
+    meal: result
+  })
+}

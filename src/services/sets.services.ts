@@ -1,8 +1,7 @@
 import { ObjectId } from 'mongodb'
 import databaseService from './database.services'
-import Meals from '~/models/schemas/Meals.schema'
-import { MealType, RoleTypeQueryFilter, UserRole } from '~/constants/enums'
-import { MEALS_MESSAGES, SETS_MESSAGES } from '~/constants/messages'
+import { RoleTypeQueryFilter, UserRole } from '~/constants/enums'
+import { SETS_MESSAGES } from '~/constants/messages'
 import { SetReqBody, UpdateSetReqBody } from '~/models/requests/Set.requests'
 import Sets from '~/models/schemas/Sets.schema'
 import { SetExerciseReqBody } from '~/models/requests/SetExercise.requests'
@@ -65,21 +64,6 @@ class SetService {
     }
   }
 
-  async getAll() {
-    const exercises = await databaseService.exercises
-      .find(
-        {},
-        {
-          projection: {
-            id: 1,
-            name: 1
-          }
-        }
-      )
-      .toArray()
-    return exercises
-  }
-
   async getById({ id, user_id, role }: { id: string; user_id: string; role: UserRole }) {
     const set = await databaseService.sets.findOne({
       _id: new ObjectId(id)
@@ -97,44 +81,6 @@ class SetService {
     return set
   }
 
-  async getMealByDate({ date, user_id }: { date: string; user_id: string }) {
-    const inputDate = new Date(date)
-
-    // Get start and end of the day for date range search
-    const startOfDay = new Date(inputDate)
-    startOfDay.setUTCHours(0, 0, 0, 0)
-
-    const endOfDay = new Date(inputDate)
-    endOfDay.setUTCHours(23, 59, 59, 999)
-
-    const meals = await databaseService.meals
-      .find(
-        {
-          user_id: new ObjectId(user_id),
-          date: { $gte: startOfDay, $lte: endOfDay }
-        },
-        {
-          projection: {
-            dishes: 0
-          },
-          sort: {
-            calories: 1
-          }
-        }
-      )
-      .toArray()
-    if (!meals) {
-      throw new Error(MEALS_MESSAGES.MEAL_NOT_FOUND)
-    }
-    const breakfasts = meals.filter((meal: Meals) => meal.meal_type === MealType.Breakfast)
-    const lunches = meals.filter((meal: Meals) => meal.meal_type === MealType.Lunch)
-    const dinners = meals.filter((meal: Meals) => meal.meal_type === MealType.Dinner)
-    return {
-      breakfasts,
-      lunches,
-      dinners
-    }
-  }
   async add({ set, user_id, role }: { set: SetReqBody; user_id: string; role: UserRole }) {
     const format_set_exercises: SetExercises[] = set.set_exercises.map((set_exercise: SetExerciseReqBody) => {
       return new SetExercises({
@@ -277,6 +223,28 @@ class SetService {
 
     const result = await databaseService.sets.deleteOne({ _id: new ObjectId(id) })
     return result
+  }
+  async clone({ user_id, set_ids, role }: { user_id: string; role: UserRole; set_ids: string[] }) {
+    const sets = await databaseService.sets
+      .find({
+        _id: {
+          $in: set_ids.map((set_id) => new ObjectId(set_id))
+        }
+      })
+      .toArray()
+    const newSets = sets.map((set: Sets) => {
+      return new Sets({
+        ...omit(set, ['_id', 'user_id']),
+        user_id: new ObjectId(user_id)
+      })
+    })
+    const { insertedIds, insertedCount } = await databaseService.sets.insertMany(newSets)
+    const newSetIds: ObjectId[] = Object.values(insertedIds).map((id) => new ObjectId(id))
+
+    newSets.forEach((set, index) => {
+      set._id = newSetIds[index]
+    })
+    return newSets
   }
 }
 const setService = new SetService()
