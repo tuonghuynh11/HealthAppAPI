@@ -145,3 +145,15 @@ export enum ExerciseQueryTypeFilter {
   Cardio = 'Cardio',
   Strength = 'Strength'
 }
+
+export enum WorkoutPlanQueryTypeFilter {
+  All = 'All',
+  Beginner = 'Beginner',
+  Intermediate = 'Intermediate',
+  Advanced = 'Advanced'
+}
+export enum GeneralQueryStatusFilter {
+  All = 'All',
+  Done = 'Done',
+  Undone = 'Undone'
+}

@@ -6,7 +6,7 @@ interface WorkoutPlanDetailType {
   sets: ObjectId[]
   day: number
   week: number
-  status: GeneralStatus
+  status?: GeneralStatus
   created_at?: Date
   updated_at?: Date
 }

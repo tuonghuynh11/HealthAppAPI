@@ -91,7 +91,8 @@ export const USERS_MESSAGES = {
   UPDATE_USER_WATER_ACTIVITY_SUCCESS: 'Update user water activity successful',
   UPDATE_HEALTH_ACTIVITY_SUCCESS: 'Update health activity successful',
   UPDATE_HEALTH_ACTIVITY_DETAIL_SUCCESS: 'Update health activity detail successful',
-  FAILED_TO_CREATE_HEALTH_TRACKING_DETAIL: 'Failed to create health tracking detail'
+  FAILED_TO_CREATE_HEALTH_TRACKING_DETAIL: 'Failed to create health tracking detail',
+  UPDATE_USER_NOTIFY_SETTINGS_SUCCESS: 'Update user notify settings successful'
 } as const
 
 export const PAGINATION_MESSAGES = {
@@ -174,4 +175,64 @@ export const SET_EXERCISE_MESSAGES = {
   SET_EXERCISE_IS_USED: 'Set exercise is used',
   INVALID_SET_EXERCISE_STATUS: 'Invalid set exercise status',
   NO_ADD_PERMISSIONS: 'You do not have permission to add this set exercise'
+}
+
+export const WORKOUT_PLAN_MESSAGES = {
+  ADD_WORKOUT_PLAN_SUCCESS: 'Add workout plan successful',
+  UPDATE_WORKOUT_PLAN_SUCCESS: 'Update workout plan successful',
+  WORKOUT_PLAN_NOT_FOUND: 'Workout plan not found',
+  NO_UPDATE_PERMISSION: 'You do not have permission to update this workout plan',
+  NO_DELETE_PERMISSION: 'You do not have permission to delete this workout plan',
+  WORKOUT_PLAN_ALREADY_USED: 'This workout plan is being used by other users or challenges so you cannot delete it',
+  DELETE_WORKOUT_PLAN_SUCCESS: 'Delete workout plan successful',
+  GET_WORKOUT_PLAN_SUCCESS: 'Get workout plan successful',
+  NO_GET_PERMISSION: 'You do not have permission to get this workout plan information',
+  INVALID_WORKOUT_PLAN_TYPE: 'Invalid workout plan type',
+  WORKOUT_PLAN_EXISTS: 'Workout plan already exists',
+  GET_ALL_WORKOUT_PLAN_SUCCESS: 'Get all workout plan successful',
+  WORKOUT_PLAN_IS_USED: 'Workout plan is used',
+  INVALID_WORKOUT_PLAN_STATUS: 'Invalid workout plan status',
+  NO_ADD_PERMISSIONS: 'You do not have permission to add this workout plan',
+  WORKOUT_PLAN_NAME_EXISTS: 'Workout plan name already exists',
+  START_DATE_MUST_BE_ISO8601: 'Start date must be ISO8601',
+  END_DATE_MUST_BE_ISO8601: 'End date must be ISO8601'
+}
+
+export const WORKOUT_PLAN_DETAILS_MESSAGES = {
+  ADD_WORKOUT_PLAN_DETAILS_SUCCESS: 'Add workout plan details successful',
+  UPDATE_WORKOUT_PLAN_DETAILS_SUCCESS: 'Update workout plan details successful',
+  WORKOUT_PLAN_DETAILS_NOT_FOUND: 'Workout plan details not found',
+  NO_UPDATE_PERMISSION: 'You do not have permission to update this workout plan details',
+  NO_DELETE_PERMISSION: 'You do not have permission to delete this workout plan details',
+  WORKOUT_PLAN_DETAILS_ALREADY_USED:
+    'This workout plan details is being used by other users or challenges so you cannot delete it',
+  DELETE_WORKOUT_PLAN_DETAILS_SUCCESS: 'Delete workout plan details successful',
+  GET_WORKOUT_PLAN_DETAILS_SUCCESS: 'Get workout plan details successful',
+  NO_GET_PERMISSION: 'You do not have permission to get this workout plan details information',
+  INVALID_WORKOUT_PLAN_DETAILS_TYPE: 'Invalid workout plan details type',
+  WORKOUT_PLAN_DETAILS_EXISTS: 'Workout plan details already exists',
+  GET_ALL_WORKOUT_PLAN_DETAILS_SUCCESS: 'Get all workout plan details successful',
+  WORKOUT_PLAN_DETAILS_IS_USED: 'Workout plan details is used',
+  INVALID_WORKOUT_PLAN_DETAILS_STATUS: 'Invalid workout plan details status',
+  ADD_SET_FOR_WORKOUT_PLAN_DETAILS_SUCCESS: 'Add set for workout plan details successful',
+  DELETE_SET_IN_WORKOUT_PLAN_DETAILS_SUCCESS: 'Delete set in workout plan details successful'
+}
+
+export const CHALLENGE_MESSAGES = {
+  ADD_CHALLENGE_SUCCESS: 'Add challenge successful',
+  UPDATE_CHALLENGE_SUCCESS: 'Update challenge successful',
+  CHALLENGE_NOT_FOUND: 'Challenge not found',
+  NO_UPDATE_PERMISSION: 'You do not have permission to update this challenge',
+  NO_DELETE_PERMISSION: 'You do not have permission to delete this challenge',
+  CHALLENGE_ALREADY_USED: 'This challenge is being used by other users or challenges so you cannot delete it',
+  DELETE_CHALLENGE_SUCCESS: 'Delete challenge successful',
+  GET_CHALLENGE_SUCCESS: 'Get challenge successful',
+  NO_GET_PERMISSION: 'You do not have permission to get this challenge information',
+  INVALID_CHALLENGE_TYPE: 'Invalid challenge type',
+  CHALLENGE_EXISTS: 'Challenge already exists',
+  GET_ALL_CHALLENGE_SUCCESS: 'Get all challenge successful',
+  CHALLENGE_IS_USED: 'Challenge is used',
+  INVALID_CHALLENGE_TARGET: 'Invalid challenge target',
+  START_DATE_MUST_BE_ISO8601: 'Start date must be ISO8601',
+  END_DATE_MUST_BE_ISO8601: 'End date must be ISO8601'
 }

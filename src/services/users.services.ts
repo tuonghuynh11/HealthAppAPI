@@ -1,6 +1,6 @@
 import User from '~/models/schemas/User.schema'
 import databaseService from './database.services'
-import { RegisterReqBody, UpdateMeReqBody } from '~/models/requests/User.requests'
+import { RegisterReqBody, UpdateMeReqBody, UpdateUserNotifySettingsReqBody } from '~/models/requests/User.requests'
 import { hashPassword } from '~/utils/crypto'
 import { signToken, verifyToken } from '~/utils/jwt'
 import { HealthTrackingType, TokenType, UserRole, UserStatus, UserVerifyStatus } from '~/constants/enums'
@@ -513,6 +513,41 @@ class UserService {
       }
     )
     return user
+  }
+  async updateUserNotifySettings(user_id: string, payload: UpdateUserNotifySettingsReqBody) {
+    const user = await databaseService.users.findOne({
+      _id: new ObjectId(user_id)
+    })
+
+    if (!user) {
+      throw new ErrorWithStatus({
+        message: USERS_MESSAGES.USER_NOT_FOUND,
+        status: HTTP_STATUS.NOT_FOUND
+      })
+    }
+
+    const result = await databaseService.users.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          myNotifySettings: {
+            ...payload
+          }
+        },
+        $currentDate: {
+          updated_at: true
+        }
+      },
+      {
+        returnDocument: 'after', // Trả về giá trị mới
+        projection: {
+          password: 0,
+          email_verify_token: 0,
+          forgot_password_token: 0
+        }
+      }
+    )
+    return result
   }
   async changePassword(user_id: string, new_password: string) {
     await databaseService.users.updateOne(

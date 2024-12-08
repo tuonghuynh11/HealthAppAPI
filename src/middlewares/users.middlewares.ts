@@ -708,6 +708,39 @@ export const changePasswordValidator = validate(
     ['body']
   )
 )
+
+export const updateUserNotifyValidator = validate(
+  checkSchema(
+    {
+      isChallenge: {
+        optional: true,
+        isBoolean: true
+      },
+      isEating: {
+        optional: true,
+        isBoolean: true
+      },
+      isWorkout: {
+        optional: true,
+        isBoolean: true
+      },
+      isWater: {
+        optional: true,
+        isBoolean: true
+      },
+      isAdmin: {
+        optional: true,
+        isBoolean: true
+      },
+      isHealth: {
+        optional: true,
+        isBoolean: true
+      }
+    },
+    ['body']
+  )
+)
+
 export const verifiedAdminValidator = (req: Request, res: Response, next: NextFunction) => {
   const { role } = req.decoded_authorization as TokenPayload
   if (role !== UserRole.Admin) {

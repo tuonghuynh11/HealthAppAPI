@@ -1,6 +1,6 @@
 // Swagger UI Express Comment Format
 
-interface UserSettingsType {
+interface UserNotifySettingsType {
   isChallenge?: boolean
   isEating?: boolean
   isWorkout?: boolean
@@ -9,7 +9,7 @@ interface UserSettingsType {
   isHealth?: boolean
 }
 
-export class UserSettings {
+export class UserNotifySettings {
   isChallenge?: boolean
   isEating?: boolean
   isWorkout?: boolean
@@ -17,7 +17,7 @@ export class UserSettings {
   isAdmin?: boolean
   isHealth?: boolean
 
-  constructor(userSetting?: UserSettingsType) {
+  constructor(userSetting?: UserNotifySettingsType) {
     this.isChallenge = userSetting?.isChallenge || false
     this.isEating = userSetting?.isEating || false
     this.isWorkout = userSetting?.isWorkout || false
