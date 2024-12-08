@@ -69,3 +69,12 @@ export interface ChangePasswordReqBody {
 export interface BanUserReqParams extends ParamsDictionary {
   user_id: string
 }
+
+export interface UpdateUserNotifySettingsReqBody {
+  isChallenge?: boolean
+  isEating?: boolean
+  isWorkout?: boolean
+  isWater?: boolean
+  isAdmin?: boolean
+  isHealth?: boolean
+}

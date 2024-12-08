@@ -17,6 +17,7 @@ export const envConfig = {
   dbSetExercisesCollection: process.env.DB_SET_EXERCISES_COLLECTION as string,
   dbSetsCollection: process.env.DB_SETS_COLLECTION as string,
   dbWorkoutPlanDetailsCollection: process.env.DB_WORKOUT_PLAN_DETAILS_COLLECTION as string,
+  dbWorkoutPlansCollection: process.env.DB_WORKOUT_PLAN_COLLECTION as string,
 
   passwordSecret: process.env.PASSWORD_SECRET as string,
   jwtSecretAccessToken: process.env.JWT_SECRET_ACCESS_TOKEN as string,
@@ -29,7 +30,9 @@ export const envConfig = {
   forgotPasswordTokenExpiresIn: process.env.FORGOT_PASSWORD_TOKEN_EXPIRES_IN as string,
   cloud_name: process.env.CLOUD_NAME as string,
   api_key: process.env.API_KEY as string,
-  api_secret: process.env.API_SECRET as string
+  api_secret: process.env.API_SECRET as string,
+
+  admin_mail: process.env.ADMIN_MAIL as string
   // awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
   // awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
   // awsRegion: process.env.AWS_REGION as string,

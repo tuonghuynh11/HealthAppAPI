@@ -18,6 +18,7 @@ import {
   ResetPasswordReqBody,
   TokenPayload,
   UpdateMeReqBody,
+  UpdateUserNotifySettingsReqBody,
   VerifyForgotPasswordReqBody,
   VerifyReqReqBody
 } from '~/models/requests/User.requests'
@@ -191,6 +192,19 @@ export const updateMeController = async (
   const user = await userService.updateMe(user_id, body)
   return res.json({
     message: USERS_MESSAGES.UPDATE_MY_PROFILE_SUCCESS,
+    result: user
+  })
+}
+export const updateUserNotifyController = async (
+  req: Request<ParamsDictionary, any, UpdateUserNotifySettingsReqBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload
+  const { body } = req
+  const user = await userService.updateUserNotifySettings(user_id, body)
+  return res.json({
+    message: USERS_MESSAGES.UPDATE_USER_NOTIFY_SETTINGS_SUCCESS,
     result: user
   })
 }

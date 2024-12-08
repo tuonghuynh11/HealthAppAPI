@@ -18,6 +18,7 @@ import {
   resetPasswordTokenController,
   unBanUserController,
   updateMeController,
+  updateUserNotifyController,
   verifyEmailController,
   verifyForgotPasswordTokenController
 } from '~/controllers/users.controllers'
@@ -33,6 +34,7 @@ import {
   registerValidator,
   resetPasswordTokenValidator,
   updateMeValidator,
+  updateUserNotifyValidator,
   userBannedValidator,
   userIsOnlineValidator,
   verifiedAdminValidator,
@@ -40,7 +42,7 @@ import {
   verifyOTPCodeValidator
 } from '~/middlewares/users.middlewares'
 import { paginationNavigator } from '~/middlewares/paginations.middlewares'
-import { UpdateMeReqBody } from '~/models/requests/User.requests'
+import { UpdateMeReqBody, UpdateUserNotifySettingsReqBody } from '~/models/requests/User.requests'
 import { wrapRequestHandler } from '~/utils/handles'
 
 const usersRouter = Router()
@@ -280,5 +282,28 @@ usersRouter.post(
  * }
  * **/
 usersRouter.post('/waters', accessTokenValidator, verifiedUSerValidator, wrapRequestHandler(addWaterActivityController))
+
+/**
+ * Description: Upsert user notifications
+ * Path: /me/notify-settings
+ * Method: PATCH
+ * Header:{Authorization:Bearer <access_token>}
+ * Body: UserSchema
+ * **/
+usersRouter.patch(
+  '/me/notify-settings',
+  accessTokenValidator,
+  verifiedUSerValidator,
+  updateUserNotifyValidator,
+  filterMiddleware<UpdateUserNotifySettingsReqBody>([
+    'isAdmin',
+    'isChallenge',
+    'isEating',
+    'isWorkout',
+    'isWater',
+    'isHealth'
+  ]),
+  wrapRequestHandler(updateUserNotifyController)
+)
 
 export default usersRouter

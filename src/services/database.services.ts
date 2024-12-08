@@ -12,6 +12,7 @@ import Exercises from '~/models/schemas/Exercises.schema'
 import SetExercises from '~/models/schemas/SetExercises.schema'
 import Sets from '~/models/schemas/Sets.schema'
 import WorkoutPlanDetails from '~/models/schemas/WorkoutPlanDetails.schema'
+import WorkoutPlans from '~/models/schemas/WorkoutPlans.schema'
 dotenv.config()
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.dlxrr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
@@ -78,6 +79,9 @@ class DatabaseService {
   }
   get workoutPlanDetails(): Collection<WorkoutPlanDetails> {
     return this.db.collection(envConfig.dbWorkoutPlanDetailsCollection as string)
+  }
+  get workoutPlans(): Collection<WorkoutPlans> {
+    return this.db.collection(envConfig.dbWorkoutPlansCollection as string)
   }
 }
 const databaseService = new DatabaseService()

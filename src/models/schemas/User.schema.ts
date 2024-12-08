@@ -1,7 +1,6 @@
 import { ObjectId } from 'mongodb'
-import { UserSettings } from '~/constants/classes'
+import { UserNotifySettings } from '~/constants/classes'
 import { Gender, LevelType, UserRole, UserStatus, UserVerifyStatus } from '~/constants/enums'
-import WorkoutPlans from './WorkoutPlans.schema'
 import Challenges from './Challenges.schema'
 import OTP from './Otp.schema'
 
@@ -27,8 +26,8 @@ interface UserType {
   weight?: number
   goal_weight?: number
   level?: LevelType
-  mySettings?: UserSettings
-  workout_plans?: WorkoutPlans[]
+  myNotifySettings?: UserNotifySettings
+  workout_plans?: ObjectId[]
   meals?: ObjectId[]
   waters?: ObjectId[]
   challenges?: Challenges[]
@@ -58,8 +57,8 @@ export default class User {
   goal_weight?: number
   level?: LevelType
 
-  mySettings?: UserSettings
-  workout_plans?: WorkoutPlans[]
+  myNotifySettings?: UserNotifySettings
+  workout_plans?: ObjectId[]
   meals?: ObjectId[]
   waters?: ObjectId[]
   challenges?: Challenges[]
@@ -87,7 +86,7 @@ export default class User {
     this.weight = user.weight
     this.goal_weight = user.goal_weight
     this.level = user.level || LevelType.Beginner
-    this.mySettings = user.mySettings || new UserSettings()
+    this.myNotifySettings = user.myNotifySettings || new UserNotifySettings()
     this.workout_plans = user.workout_plans || []
     this.meals = user.meals || []
     this.waters = user.waters || []
