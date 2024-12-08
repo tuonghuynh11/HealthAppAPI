@@ -1,9 +1,9 @@
 name: Node.js CI/CD Workflow
 
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
   pull_request:
     branches:
       - main
