@@ -102,7 +102,8 @@ export enum ChallengeTarget {
 }
 export enum ChallengeStatus {
   Active = 'Active',
-  Inactive = 'Inactive'
+  Inactive = 'Inactive',
+  Expired = 'Expired'
 }
 export enum NotificationType {
   Challenge = 'Challenge',
@@ -156,4 +157,10 @@ export enum GeneralQueryStatusFilter {
   All = 'All',
   Done = 'Done',
   Undone = 'Undone'
+}
+export enum ChallengeQueryTypeFilter {
+  All = 'All',
+  Fitness = 'Fitness',
+  Eating = 'Eating',
+  Combo = 'Combo'
 }

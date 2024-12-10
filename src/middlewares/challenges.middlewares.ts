@@ -1,27 +1,26 @@
 import { checkSchema } from 'express-validator'
-import { ObjectId } from 'mongodb'
-import { ChallengeTarget, ChallengeType, ExerciseCategories, ExerciseQueryTypeFilter } from '~/constants/enums'
+import { ChallengeQueryTypeFilter, ChallengeTarget, ChallengeType } from '~/constants/enums'
 import HTTP_STATUS from '~/constants/httpStatus'
-import { CHALLENGE_MESSAGES, EXERCISE_MESSAGES } from '~/constants/messages'
+import { CHALLENGE_MESSAGES } from '~/constants/messages'
 import { ErrorWithStatus } from '~/models/Errors'
 import databaseService from '~/services/database.services'
 import { validate } from '~/utils/validation'
 
-export const exercisesSearchValidator = validate(
+export const challengeSearchValidator = validate(
   checkSchema(
     {
       search: {
         optional: true,
         isString: true
-      }, // exercise name
+      }, // challenge name
 
       type: {
         optional: false,
         notEmpty: true,
         isString: true,
         isIn: {
-          options: [ExerciseQueryTypeFilter],
-          errorMessage: EXERCISE_MESSAGES.INVALID_EXERCISE_TYPE
+          options: [ChallengeQueryTypeFilter],
+          errorMessage: CHALLENGE_MESSAGES.INVALID_CHALLENGE_TYPE
         }
       }
     },
@@ -118,7 +117,7 @@ export const addChallengeValidator = validate(
     ['body']
   )
 )
-export const updateExerciseValidator = validate(
+export const updateChallengesValidator = validate(
   checkSchema(
     {
       name: {
@@ -126,13 +125,12 @@ export const updateExerciseValidator = validate(
         trim: true,
         custom: {
           options: async (value, { req }) => {
-            const isExist = await databaseService.exercises.findOne({
-              name: value,
-              _id: { $ne: new ObjectId(req.params?.id) }
+            const isExist = await databaseService.challenges.findOne({
+              name: value
             })
             if (isExist) {
               throw new ErrorWithStatus({
-                message: EXERCISE_MESSAGES.EXERCISE_EXISTS,
+                message: CHALLENGE_MESSAGES.CHALLENGE_EXISTS,
                 status: HTTP_STATUS.FORBIDDEN
               })
             }
@@ -144,15 +142,39 @@ export const updateExerciseValidator = validate(
         optional: true,
         trim: true
       },
-      category: {
+      type: {
         optional: true,
         isString: true,
         isIn: {
-          options: [ExerciseCategories],
-          errorMessage: EXERCISE_MESSAGES.INVALID_EXERCISE_TYPE
+          options: [ChallengeType],
+          errorMessage: CHALLENGE_MESSAGES.INVALID_CHALLENGE_TYPE
         }
       },
-      calories_burn_per_minutes: {
+      prize_image: {
+        optional: true,
+        isString: true
+      },
+      prize_title: {
+        optional: true,
+        isString: true
+      },
+      target: {
+        optional: true,
+        isString: true,
+        isIn: {
+          options: [ChallengeTarget],
+          errorMessage: CHALLENGE_MESSAGES.INVALID_CHALLENGE_TARGET
+        }
+      },
+      target_image: {
+        optional: true,
+        isString: true
+      },
+      fat_percent: {
+        optional: true,
+        isNumeric: true
+      },
+      weight_loss_target: {
         optional: true,
         isNumeric: true
       },
@@ -160,9 +182,25 @@ export const updateExerciseValidator = validate(
         optional: true,
         isString: true
       },
-      video: {
+      start_date: {
         optional: true,
-        isString: true
+        isISO8601: {
+          options: {
+            strict: true, //Chặn định dạng YYYY-MM-Đ
+            strictSeparator: true // KHông có chữ T trong chuỗi date string
+          },
+          errorMessage: CHALLENGE_MESSAGES.START_DATE_MUST_BE_ISO8601
+        }
+      },
+      end_date: {
+        optional: true,
+        isISO8601: {
+          options: {
+            strict: true, //Chặn định dạng YYYY-MM-Đ
+            strictSeparator: true // KHông có chữ T trong chuỗi date string
+          },
+          errorMessage: CHALLENGE_MESSAGES.END_DATE_MUST_BE_ISO8601
+        }
       }
     },
     ['body']

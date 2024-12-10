@@ -234,5 +234,13 @@ export const CHALLENGE_MESSAGES = {
   CHALLENGE_IS_USED: 'Challenge is used',
   INVALID_CHALLENGE_TARGET: 'Invalid challenge target',
   START_DATE_MUST_BE_ISO8601: 'Start date must be ISO8601',
-  END_DATE_MUST_BE_ISO8601: 'End date must be ISO8601'
+  END_DATE_MUST_BE_ISO8601: 'End date must be ISO8601',
+  UPDATE_MEAL_CHALLENGE_SUCCESS: 'Update meal challenge successful',
+  CHALLENGE_NOT_HAVE_MEAL: "This challenge doesn't have meal",
+  UPDATE_WORKOUT_CHALLENGE_SUCCESS: 'Update workout challenge successful',
+  CHALLENGE_NOT_HAVE_WORKOUT_PLAN: "This challenge doesn't have workout plan",
+  JOIN_CHALLENGE_SUCCESS: 'Join challenge successful',
+  CHALLENGE_IS_JOINED: 'Challenge is joined',
+  ACTIVATE_CHALLENGE_SUCCESS: 'Activate challenge successful',
+  DEACTIVATE_CHALLENGE_SUCCESS: 'Deactivate challenge successful'
 }
