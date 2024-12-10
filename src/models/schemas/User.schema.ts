@@ -61,7 +61,7 @@ export default class User {
   workout_plans?: ObjectId[]
   meals?: ObjectId[]
   waters?: ObjectId[]
-  challenges?: Challenges[]
+  challenges: Challenges[]
   isOnline?: boolean
   otp?: OTP
   healthTrackings?: ObjectId[]

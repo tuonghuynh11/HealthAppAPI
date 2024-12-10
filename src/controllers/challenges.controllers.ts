@@ -2,17 +2,18 @@ import { Request, Response } from 'express'
 import { TokenPayload } from '~/models/requests/User.requests'
 import { ParamsDictionary } from 'express-serve-static-core'
 import { CHALLENGE_MESSAGES, EXERCISE_MESSAGES } from '~/constants/messages'
-import { ExerciseReqQuery, UpdateExerciseReqBody } from '~/models/requests/Exercise.requests'
 import exerciseService from '~/services/exercises.services'
-import { ChallengeReqBody } from '~/models/requests/Challenge.requests'
+import { ChallengeReqBody, ChallengeReqQuery, UpdateChallengeReqBody } from '~/models/requests/Challenge.requests'
 import challengesService from '~/services/challenge.services'
+import { MealReqBody } from '~/models/requests/Meal.requests'
+import { UpdateWorkoutPlanReqBody } from '~/models/requests/WorkoutPlan.requests'
 
-export const searchExercisesController = async (
-  req: Request<ParamsDictionary, any, any, ExerciseReqQuery>,
+export const searchChallengesController = async (
+  req: Request<ParamsDictionary, any, any, ChallengeReqQuery>,
   res: Response
 ) => {
   const { search, page, limit, type, sort_by, order_by } = req.query
-  const { exercises, total } = await exerciseService.search({
+  const { challenges, total } = await challengesService.search({
     search: search?.toString(),
     type,
     page,
@@ -21,9 +22,9 @@ export const searchExercisesController = async (
     order_by
   })
   return res.json({
-    message: EXERCISE_MESSAGES.GET_EXERCISE_SUCCESS,
+    message: CHALLENGE_MESSAGES.GET_CHALLENGE_SUCCESS,
     result: {
-      exercises,
+      challenges,
       page: Number(page),
       limit: Number(limit),
       total_items: total,
@@ -43,25 +44,51 @@ export const addChallengeController = async (req: Request<ParamsDictionary, any,
   })
 }
 
-export const updateExerciseController = async (
-  req: Request<ParamsDictionary, any, UpdateExerciseReqBody>,
+export const updateChallengeController = async (
+  req: Request<ParamsDictionary, any, UpdateChallengeReqBody>,
   res: Response
 ) => {
   const { id } = req.params
-  const result = await exerciseService.update({ id, updateExercise: req.body })
+  const result = await challengesService.update({ id, updateChallenge: req.body })
 
   return res.json({
-    message: EXERCISE_MESSAGES.UPDATE_EXERCISE_SUCCESS,
-    exercise: result
+    message: CHALLENGE_MESSAGES.UPDATE_CHALLENGE_SUCCESS,
+    challenge: result
   })
 }
-export const getExerciseByIdController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
+export const updateChallengeMealController = async (
+  req: Request<ParamsDictionary, any, MealReqBody>,
+  res: Response
+) => {
   const { id } = req.params
-  const result = await exerciseService.getById({ id })
+
+  const result = await challengesService.updateMeal({ id, updateMeal: req.body })
 
   return res.json({
-    message: EXERCISE_MESSAGES.GET_EXERCISE_SUCCESS,
-    exercise: result
+    message: CHALLENGE_MESSAGES.UPDATE_MEAL_CHALLENGE_SUCCESS,
+    meal: result
+  })
+}
+export const updateChallengeWorkoutController = async (
+  req: Request<ParamsDictionary, any, UpdateWorkoutPlanReqBody>,
+  res: Response
+) => {
+  const { id } = req.params
+
+  const result = await challengesService.updateWorkout({ id, updateWorkoutPlan: req.body })
+
+  return res.json({
+    message: CHALLENGE_MESSAGES.UPDATE_WORKOUT_CHALLENGE_SUCCESS,
+    workout: result
+  })
+}
+export const getChallengeByIdController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
+  const { id } = req.params
+  const result = await challengesService.getById({ id })
+
+  return res.json({
+    message: CHALLENGE_MESSAGES.GET_CHALLENGE_SUCCESS,
+    challenge: result
   })
 }
 export const getAllExerciseController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
@@ -72,11 +99,40 @@ export const getAllExerciseController = async (req: Request<ParamsDictionary, an
     exercises: result
   })
 }
-export const deleteExerciseController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
+export const joinChallengeController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
   const { id } = req.params
-  const result = await exerciseService.delete({ id })
+  const { user_id } = req.decoded_authorization as TokenPayload
+
+  const result = await challengesService.join({ user_id, id })
 
   return res.json({
-    message: EXERCISE_MESSAGES.DELETE_EXERCISE_SUCCESS
+    message: CHALLENGE_MESSAGES.JOIN_CHALLENGE_SUCCESS,
+    user: result
+  })
+}
+export const activateChallengeController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
+  const { id } = req.params
+
+  const result = await challengesService.activate({ id })
+
+  return res.json({
+    message: CHALLENGE_MESSAGES.ACTIVATE_CHALLENGE_SUCCESS
+  })
+}
+export const deactivateChallengeController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
+  const { id } = req.params
+
+  const result = await challengesService.deactivate({ id })
+
+  return res.json({
+    message: CHALLENGE_MESSAGES.DEACTIVATE_CHALLENGE_SUCCESS
+  })
+}
+export const deleteChallengeController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
+  const { id } = req.params
+  const result = await challengesService.delete({ id })
+
+  return res.json({
+    message: CHALLENGE_MESSAGES.DELETE_CHALLENGE_SUCCESS
   })
 }

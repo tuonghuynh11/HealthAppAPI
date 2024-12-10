@@ -1,23 +1,30 @@
 import { Router } from 'express'
-import { addChallengeController } from '~/controllers/challenges.controllers'
 import {
-  deleteExerciseController,
-  getAllExerciseController,
-  getExerciseByIdController,
-  searchExercisesController,
-  updateExerciseController
-} from '~/controllers/exercises.controllers'
-import { addChallengeValidator } from '~/middlewares/challenges.middlewares'
+  activateChallengeController,
+  addChallengeController,
+  deactivateChallengeController,
+  deleteChallengeController,
+  getChallengeByIdController,
+  joinChallengeController,
+  searchChallengesController,
+  updateChallengeController,
+  updateChallengeMealController,
+  updateChallengeWorkoutController
+} from '~/controllers/challenges.controllers'
+import {
+  addChallengeValidator,
+  challengeSearchValidator,
+  updateChallengesValidator
+} from '~/middlewares/challenges.middlewares'
 import { filterMiddleware } from '~/middlewares/common.middlewares'
-import { exercisesSearchValidator, updateExerciseValidator } from '~/middlewares/exercises.middlewares'
 import { paginationNavigator } from '~/middlewares/paginations.middlewares'
 import { accessTokenValidator, adminRoleValidator, verifiedUSerValidator } from '~/middlewares/users.middlewares'
-import { UpdateExerciseReqBody } from '~/models/requests/Exercise.requests'
+import { UpdateChallengeReqBody } from '~/models/requests/Challenge.requests'
 import { wrapRequestHandler } from '~/utils/handles'
 const challengesRouter = Router()
 
 /**
- * Description: Search exercise by name
+ * Description: Search challenge by name
  * Path: ?search = "" &page = 1 &limit = 10 & type = ExerciseCategories & order_by & sort_by
  * Method: GET
  * **/
@@ -25,24 +32,22 @@ challengesRouter.get(
   '/',
   accessTokenValidator,
   paginationNavigator,
-  exercisesSearchValidator,
-  wrapRequestHandler(searchExercisesController)
+  challengeSearchValidator,
+  wrapRequestHandler(searchChallengesController)
 )
 
 /**
- * Description: Get all exercise
- * Path: /all
- * Method: GET
- * **/
-challengesRouter.get('/all', accessTokenValidator, wrapRequestHandler(getAllExerciseController))
-
-/**
- * Description: Get exercise detail
- * Path: /exercises/:id
+ * Description: Get challenge detail
+ * Path: /:id
  * Method: Get
  * Body:
  * **/
-challengesRouter.get('/:id', accessTokenValidator, verifiedUSerValidator, wrapRequestHandler(getExerciseByIdController))
+challengesRouter.get(
+  '/:id',
+  accessTokenValidator,
+  verifiedUSerValidator,
+  wrapRequestHandler(getChallengeByIdController)
+)
 
 /**
  * Description: Add new challenge
@@ -69,7 +74,7 @@ challengesRouter.post(
   '/',
   accessTokenValidator,
   verifiedUSerValidator,
-  // adminRoleValidator,
+  adminRoleValidator,
   addChallengeValidator,
   wrapRequestHandler(addChallengeController)
 )
@@ -91,8 +96,7 @@ challengesRouter.post(
   image: string
   start_date: Date
   end_date: Date
-  meal?: Meals
-  workout_plan?: WorkoutPlans
+  status: ChallengeStatus
  * }
  * **/
 challengesRouter.patch(
@@ -100,21 +104,109 @@ challengesRouter.patch(
   accessTokenValidator,
   verifiedUSerValidator,
   adminRoleValidator,
-  updateExerciseValidator,
-  filterMiddleware<UpdateExerciseReqBody>([
+  updateChallengesValidator,
+  filterMiddleware<UpdateChallengeReqBody>([
     'name',
     'description',
-    'category',
-    'calories_burn_per_minutes',
+    'type',
+    'prize_image',
+    'prize_title',
+    'target',
+    'target_image',
+    'fat_percent',
+    'weight_loss_target',
     'image',
-    'video'
+    'start_date',
+    'end_date',
+    'status'
   ]),
-  wrapRequestHandler(updateExerciseController)
+  wrapRequestHandler(updateChallengeController)
 )
 
 /**
- * Description: Delete Exercise
- * Path: /exercises/:id
+ * Description: Update meal challenges
+ * Path: /:id/meal
+ * Method: Put
+ * Body: {
+ *  name: string
+ *  date: Date
+ *  description: string
+ *  calories: number
+ *  pre_time: number
+ *  type: MealType
+ *  dishes: Dishes[]
+ * }
+ * }
+ * **/
+challengesRouter.put(
+  '/:id/meal',
+  accessTokenValidator,
+  verifiedUSerValidator,
+  adminRoleValidator,
+  wrapRequestHandler(updateChallengeMealController)
+)
+/**
+ * Description: Update workout challenges
+ * Path: /:id/workout
+ * Method: Put
+ * Body: {
+ *  name: string
+ *  description: string
+ *  number_of_set: number
+ *  estimated_calories_burned: number
+ *  type: WorkoutType
+ *  start_date?: Date
+ *  end_date?: Date
+ *  status: GeneralStatus
+ * }
+ * **/
+challengesRouter.put(
+  '/:id/workout',
+  accessTokenValidator,
+  verifiedUSerValidator,
+  adminRoleValidator,
+  wrapRequestHandler(updateChallengeWorkoutController)
+)
+
+/**
+ * Description: Join a challenges
+ * Path: /join/:id
+ * Method: Post
+ * **/
+challengesRouter.post(
+  '/join/:id',
+  accessTokenValidator,
+  verifiedUSerValidator,
+  wrapRequestHandler(joinChallengeController)
+)
+/**
+ * Description: Activate challenges
+ * Path: /:id/activate
+ * Method: Post
+ * **/
+challengesRouter.post(
+  '/:id/activate',
+  accessTokenValidator,
+  verifiedUSerValidator,
+  adminRoleValidator,
+  wrapRequestHandler(activateChallengeController)
+)
+/**
+ * Description: Deactivate challenges
+ * Path: /:id/deactivate
+ * Method: Post
+ * **/
+challengesRouter.post(
+  '/:id/deactivate',
+  accessTokenValidator,
+  verifiedUSerValidator,
+  adminRoleValidator,
+  wrapRequestHandler(deactivateChallengeController)
+)
+
+/**
+ * Description: Delete challenges
+ * Path: /:id
  * Method: Delete
  * Body:
  * **/
@@ -123,7 +215,7 @@ challengesRouter.delete(
   accessTokenValidator,
   verifiedUSerValidator,
   adminRoleValidator,
-  wrapRequestHandler(deleteExerciseController)
+  wrapRequestHandler(deleteChallengeController)
 )
 
 export default challengesRouter
