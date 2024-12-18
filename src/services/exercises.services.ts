@@ -5,6 +5,8 @@ import { ExerciseQueryTypeFilter, MealType } from '~/constants/enums'
 import { EXERCISE_MESSAGES, MEALS_MESSAGES } from '~/constants/messages'
 import { ExerciseReqBody, UpdateExerciseReqBody } from '~/models/requests/Exercise.requests'
 import Exercises from '~/models/schemas/Exercises.schema'
+import { ErrorWithStatus } from '~/models/Errors'
+import HTTP_STATUS from '~/constants/httpStatus'
 
 class ExerciseService {
   async search({
@@ -170,6 +172,30 @@ class ExerciseService {
     const result = await databaseService.exercises.deleteOne({ _id: new ObjectId(id) })
 
     return result
+  }
+  async rating({ id, value }: { id: string; value: number }) {
+    const exercise = await databaseService.exercises.findOne({
+      _id: new ObjectId(id)
+    })
+    if (!exercise) {
+      throw new ErrorWithStatus({
+        message: EXERCISE_MESSAGES.EXERCISE_NOT_FOUND,
+        status: HTTP_STATUS.NOT_FOUND
+      })
+    }
+    await databaseService.exercises.updateOne(
+      {
+        _id: new ObjectId(id)
+      },
+      {
+        $set: {
+          rating: Number(((exercise!.rating! + value) / 2).toFixed(1))
+        },
+        $currentDate: {
+          updated_at: true
+        }
+      }
+    )
   }
 }
 const exerciseService = new ExerciseService()
