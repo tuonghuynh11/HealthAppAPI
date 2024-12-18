@@ -12,6 +12,10 @@ import setsExerciseRouter from './set-exercsie.routes'
 import workoutPlansRouter from './workout-plans.routes'
 import workoutPlanDetailsRouter from './workout-plan-details.routes'
 import challengesRouter from './challenges.routes'
+import dishesRouter from './dishes.routes'
+import ingredientsRouter from './ingredients.routes'
+import reportsRouter from './reports.routes'
+import chatsRouter from './chat.routes'
 
 const file = fs.readFileSync(path.resolve('slda-swagger.yaml'), 'utf8')
 const swaggerDocument = YAML.parse(file)
@@ -27,5 +31,9 @@ versionOneRouter.use('/sets-exercise', setsExerciseRouter)
 versionOneRouter.use('/workout-plans', workoutPlansRouter)
 versionOneRouter.use('/workout-plan-details', workoutPlanDetailsRouter)
 versionOneRouter.use('/challenges', challengesRouter)
+versionOneRouter.use('/dishes', dishesRouter)
+versionOneRouter.use('/ingredients', ingredientsRouter)
+versionOneRouter.use('/reports', reportsRouter)
+versionOneRouter.use('/chats', chatsRouter)
 
 export { versionOneRouter }

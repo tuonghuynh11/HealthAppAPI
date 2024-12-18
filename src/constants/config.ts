@@ -18,6 +18,11 @@ export const envConfig = {
   dbSetsCollection: process.env.DB_SETS_COLLECTION as string,
   dbWorkoutPlanDetailsCollection: process.env.DB_WORKOUT_PLAN_DETAILS_COLLECTION as string,
   dbWorkoutPlansCollection: process.env.DB_WORKOUT_PLAN_COLLECTION as string,
+  dbDishesCollection: process.env.DB_DISHES_COLLECTION as string,
+  dbIngredientsCollection: process.env.DB_INGREDIENTS_COLLECTION as string,
+  dbReportsCollection: process.env.DB_REPORTS_COLLECTION as string,
+  dbChatRoomsCollection: process.env.DB_CHAT_ROOMS_COLLECTION as string,
+  dbChatDetailsCollection: process.env.DB_CHAT_DETAILS_COLLECTION as string,
 
   passwordSecret: process.env.PASSWORD_SECRET as string,
   jwtSecretAccessToken: process.env.JWT_SECRET_ACCESS_TOKEN as string,

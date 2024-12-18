@@ -1,8 +1,9 @@
 import { ObjectId } from 'mongodb'
 import { UserNotifySettings } from '~/constants/classes'
-import { Gender, LevelType, UserRole, UserStatus, UserVerifyStatus } from '~/constants/enums'
+import { ActivityLevel, Gender, LevelType, UserRole, UserStatus, UserVerifyStatus } from '~/constants/enums'
 import Challenges from './Challenges.schema'
 import OTP from './Otp.schema'
+import { GoalDetail } from './GoalDetail.schema'
 
 // Swagger UI Express Comment Format
 
@@ -26,6 +27,7 @@ interface UserType {
   weight?: number
   goal_weight?: number
   level?: LevelType
+  activityLevel?: ActivityLevel
   myNotifySettings?: UserNotifySettings
   workout_plans?: ObjectId[]
   meals?: ObjectId[]
@@ -34,6 +36,7 @@ interface UserType {
   isOnline?: boolean
   otp?: OTP
   healthTrackings?: ObjectId[]
+  goalDetail?: GoalDetail
 }
 
 export default class User {
@@ -55,17 +58,20 @@ export default class User {
   height?: number
   weight?: number
   goal_weight?: number
+  activityLevel?: ActivityLevel
   level?: LevelType
 
   myNotifySettings?: UserNotifySettings
   workout_plans?: ObjectId[]
   meals?: ObjectId[]
   waters?: ObjectId[]
+  caloriesTakeInTargets?: ObjectId[]
+  caloriesBurnTargets?: ObjectId[]
   challenges: Challenges[]
   isOnline?: boolean
   otp?: OTP
   healthTrackings?: ObjectId[]
-
+  goalDetail?: GoalDetail
   constructor(user: UserType) {
     const date = new Date()
     this._id = user._id
@@ -94,5 +100,7 @@ export default class User {
     this.isOnline = user.isOnline || false
     this.otp = user.otp
     this.healthTrackings = user.healthTrackings || []
+    this.goalDetail = user.goalDetail
+    this.activityLevel = user.activityLevel || ActivityLevel.Sedentary
   }
 }

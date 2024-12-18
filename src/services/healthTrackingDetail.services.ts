@@ -1,6 +1,8 @@
+import HTTP_STATUS from '~/constants/httpStatus'
 import databaseService from './database.services'
 import { ObjectId } from 'mongodb'
-import { USERS_MESSAGES } from '~/constants/messages'
+import { HEALTH_TRACKING_MESSAGES, USERS_MESSAGES } from '~/constants/messages'
+import { ErrorWithStatus } from '~/models/Errors'
 import { HealthTrackingDetailBody } from '~/models/requests/HealthTrackingDetail.requests'
 import HealthTrackingDetail from '~/models/schemas/HealthTrackingDetails.schema'
 
@@ -13,6 +15,12 @@ class HealthTrackingDetailService {
       date: formattedDate,
       type: healthTrackingDetail.type
     })
+    if (!isExist) {
+      throw new ErrorWithStatus({
+        message: HEALTH_TRACKING_MESSAGES.HEALTH_TRACKING_NOT_FOUND,
+        status: HTTP_STATUS.NOT_FOUND
+      })
+    }
 
     if (isExist) {
       const inserted = await databaseService.healthTrackingDetails.insertOne(

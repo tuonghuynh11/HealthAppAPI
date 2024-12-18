@@ -1,5 +1,5 @@
 import { JwtPayload } from 'jsonwebtoken'
-import { Gender, LevelType, TokenType, UserRole, UserVerifyStatus } from '~/constants/enums'
+import { ActivityLevel, Gender, LevelType, TokenType, UserRole, UserVerifyStatus } from '~/constants/enums'
 import { ParamsDictionary } from 'express-serve-static-core'
 export interface LoginReqBody {
   username?: string
@@ -59,6 +59,7 @@ export interface UpdateMeReqBody {
   weight?: number
   goal_weight?: number
   level?: LevelType
+  activityLevel?: ActivityLevel
 }
 export interface ChangePasswordReqBody {
   old_password: string

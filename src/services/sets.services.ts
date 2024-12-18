@@ -246,6 +246,33 @@ class SetService {
     })
     return newSets
   }
+  async rating({ id, value }: { id: string; value: number }) {
+    const set = await databaseService.sets.findOne({
+      _id: new ObjectId(id)
+    })
+    if (!set) {
+      throw new ErrorWithStatus({
+        message: SETS_MESSAGES.SET_NOT_FOUND,
+        status: HTTP_STATUS.NOT_FOUND
+      })
+    }
+    if (set.user_id != null) {
+      throw new ErrorWithStatus({ status: HTTP_STATUS.FORBIDDEN, message: SETS_MESSAGES.NO_RATING_PERMISSION })
+    }
+    await databaseService.sets.updateOne(
+      {
+        _id: new ObjectId(id)
+      },
+      {
+        $set: {
+          rating: Number(((set.rating! + value) / 2).toFixed(1))
+        },
+        $currentDate: {
+          updated_at: true
+        }
+      }
+    )
+  }
 }
 const setService = new SetService()
 export default setService

@@ -46,3 +46,13 @@ export default class Dishes {
     this.ingredients = dishesType.ingredients || []
   }
 }
+
+// *  name: string
+//  *  description: string
+//  *  calories: number
+//  *  prep_time: number
+//  *  rating: number
+//  *  image: string
+
+//  *  instruction: string
+//  *  ingredients: DishesIngredients[]

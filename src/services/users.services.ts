@@ -3,7 +3,15 @@ import databaseService from './database.services'
 import { RegisterReqBody, UpdateMeReqBody, UpdateUserNotifySettingsReqBody } from '~/models/requests/User.requests'
 import { hashPassword } from '~/utils/crypto'
 import { signToken, verifyToken } from '~/utils/jwt'
-import { HealthTrackingType, TokenType, UserRole, UserStatus, UserVerifyStatus } from '~/constants/enums'
+import {
+  GoalDetailStatus,
+  HealthActivityQueryType,
+  HealthTrackingType,
+  TokenType,
+  UserRole,
+  UserStatus,
+  UserVerifyStatus
+} from '~/constants/enums'
 import { envConfig } from '~/constants/config'
 import RefreshToken from '~/models/schemas/RefreshToken.schema'
 import { ObjectId } from 'mongodb'
@@ -14,6 +22,7 @@ import HTTP_STATUS from '~/constants/httpStatus'
 import { sendForgotPasswordEmail, sendVerifyEmail } from '~/utils/mails'
 import OTP from '~/models/schemas/Otp.schema'
 import { generateOTP, generatePassword } from '~/utils/commons'
+import { GoalDetail } from '~/models/schemas/GoalDetail.schema'
 
 class UserService {
   private signAccessToken({ user_id, role, verify }: { user_id: string; role: UserRole; verify: UserVerifyStatus }) {
@@ -512,6 +521,7 @@ class UserService {
         }
       }
     )
+
     return user
   }
   async updateUserNotifySettings(user_id: string, payload: UpdateUserNotifySettingsReqBody) {
@@ -675,7 +685,7 @@ class UserService {
       }
     }
   }
-  async getHealthActivity({ type, date, user_id }: { type: string; date: string; user_id: string }) {
+  async getHealthActivity({ type, date, user_id }: { type: HealthActivityQueryType; date: string; user_id: string }) {
     //date
     // Get By Year: "2021"
     // Get By Month: "2021-09"
@@ -714,51 +724,85 @@ class UserService {
         }
       ])
       .toArray()
-    let water = null
-    const consumed: any = {}
-    const burned: any = {}
+    healthTrackings.sort((a, b) => b.date.localeCompare(a.date))
+    let water: any = []
+    // const consumed: any = {}
+    // const burned: any = {}
+    let consumed: any = []
+    let burned: any = []
 
-    if (type === 'all') {
-      const temp1 = healthTrackings.find((item: any) => item.type === HealthTrackingType.Calories_Consumed)
-      const temp2 = healthTrackings.find((item: any) => item.type === HealthTrackingType.Calories_Burned)
+    if (type === HealthActivityQueryType.All) {
+      // const temp1 = healthTrackings.find((item: any) => item.type === HealthTrackingType.Calories_Consumed)
+      // const temp2 = healthTrackings.find((item: any) => item.type === HealthTrackingType.Calories_Burned)
 
-      consumed._id = temp1?._id.toString() // Health Tracking ID
-      consumed.target = temp1?.target
-      consumed.value = temp1?.value
-      consumed.date = temp1?.date
+      // consumed._id = temp1?._id.toString() // Health Tracking ID
+      // consumed.target = temp1?.target
+      // consumed.value = temp1?.value
+      // consumed.date = temp1?.date
 
-      burned._id = temp2?._id.toString() // Health Tracking ID
-      burned.target = temp2?.target
-      burned.value = temp2?.value
-      burned.date = temp2?.date
+      // burned._id = temp2?._id.toString() // Health Tracking ID
+      // burned.target = temp2?.target
+      // burned.value = temp2?.value
+      // burned.date = temp2?.date
 
-      water = await databaseService.waters.findOne({
-        user_id: new ObjectId(user_id),
-        date: {
-          $regex: date,
-          $options: 'i'
-        }
-      })
-    } else if (type === 'water') {
-      water = await databaseService.waters.findOne({
-        user_id: new ObjectId(user_id),
-        date: {
-          $regex: date,
-          $options: 'i'
-        }
-      })
-    } else if (type === 'consumed') {
-      const temp1 = healthTrackings.find((item: any) => item.type === HealthTrackingType.Calories_Consumed)
-      consumed._id = temp1?._id.toString() // Health Tracking ID
-      consumed.target = temp1?.target
-      consumed.value = temp1?.value
-      consumed.date = temp1?.date
+      // water = await databaseService.waters.findOne({
+      //   user_id: new ObjectId(user_id),
+      //   date: {
+      //     $regex: date,
+      //     $options: 'i'
+      //   }
+      // })
+
+      const temp1 = healthTrackings.filter((item: any) => item.type === HealthTrackingType.Calories_Consumed)
+      const temp2 = healthTrackings.filter((item: any) => item.type === HealthTrackingType.Calories_Burned)
+      consumed = temp1
+      burned = temp2
+      water = (
+        await databaseService.waters
+          .find({
+            user_id: new ObjectId(user_id),
+            date: {
+              $regex: date,
+              $options: 'i'
+            }
+          })
+          .toArray()
+      ).sort((a, b) => b.date.localeCompare(a.date))
+    } else if (type === HealthActivityQueryType.Water) {
+      // water = await databaseService.waters.findOne({
+      //   user_id: new ObjectId(user_id),
+      //   date: {
+      //     $regex: date,
+      //     $options: 'i'
+      //   }
+      // })
+      water = (
+        await databaseService.waters
+          .find({
+            user_id: new ObjectId(user_id),
+            date: {
+              $regex: date,
+              $options: 'i'
+            }
+          })
+          .toArray()
+      ).sort((a, b) => b.date.localeCompare(a.date))
+    } else if (type === HealthActivityQueryType.Consumed) {
+      // const temp1 = healthTrackings.find((item: any) => item.type === HealthTrackingType.Calories_Consumed)
+      // consumed._id = temp1?._id.toString() // Health Tracking ID
+      // consumed.target = temp1?.target
+      // consumed.value = temp1?.value
+      // consumed.date = temp1?.date
+      const temp1 = healthTrackings.filter((item: any) => item.type === HealthTrackingType.Calories_Consumed)
+      consumed = temp1
     } else {
-      const temp2 = healthTrackings.find((item: any) => item.type === HealthTrackingType.Calories_Burned)
-      burned._id = temp2?._id.toString() // Health Tracking ID
-      burned.target = temp2?.target
-      burned.value = temp2?.value
-      burned.date = temp2?.date
+      // const temp2 = healthTrackings.find((item: any) => item.type === HealthTrackingType.Calories_Burned)
+      // burned._id = temp2?._id.toString() // Health Tracking ID
+      // burned.target = temp2?.target
+      // burned.value = temp2?.value
+      // burned.date = temp2?.date
+      const temp2 = healthTrackings.filter((item: any) => item.type === HealthTrackingType.Calories_Burned)
+      burned = temp2
     }
 
     return {
@@ -766,6 +810,80 @@ class UserService {
       consumed,
       burned
     }
+  }
+
+  async startGoal({ user_id }: { user_id: string }) {
+    const date = new Date()
+    const user = await databaseService.users.findOne({
+      _id: new ObjectId(user_id)
+    })
+    if (!user) {
+      throw new ErrorWithStatus({
+        message: USERS_MESSAGES.USER_NOT_FOUND,
+        status: HTTP_STATUS.NOT_FOUND
+      })
+    }
+    const update: GoalDetail = {
+      ...user.goalDetail,
+      goal: user.goalDetail!.goal!,
+      startDate: date,
+      targetDate: new Date(date.getTime() + 60 * 24 * 60 * 60 * 1000),
+      status: GoalDetailStatus.InProgress,
+      updated_at: date,
+      progress: user.goalDetail?.progress || 0
+    }
+    await databaseService.users.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          goalDetail: update
+        },
+        $currentDate: {
+          updated_at: true
+        }
+      },
+      {
+        returnDocument: 'after', // Trả về giá trị mới
+        projection: {
+          password: 0,
+          email_verify_token: 0,
+          forgot_password_token: 0
+        }
+      }
+    )
+  }
+  async updateGoalStatus({ user_id, status }: { user_id: string; status: GoalDetailStatus }) {
+    const user = await databaseService.users.findOne({
+      _id: new ObjectId(user_id)
+    })
+    if (!user) {
+      throw new ErrorWithStatus({
+        message: USERS_MESSAGES.USER_NOT_FOUND,
+        status: HTTP_STATUS.NOT_FOUND
+      })
+    }
+
+    await databaseService.users.findOneAndUpdate(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          'goalDetail.status': status
+        },
+        $currentDate: {
+          updated_at: true
+        }
+      },
+      {
+        returnDocument: 'after', // Trả về giá trị mới
+        projection: {
+          password: 0,
+          email_verify_token: 0,
+          forgot_password_token: 0
+        }
+      }
+    )
+    user.goalDetail!.status = status as GoalDetailStatus
+    return user
   }
 }
 

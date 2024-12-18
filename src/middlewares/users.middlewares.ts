@@ -672,6 +672,10 @@ export const updateMeValidator = validate(
             return true
           }
         }
+      },
+      activityLevel: {
+        isString: true,
+        optional: true
       }
     },
     ['body']

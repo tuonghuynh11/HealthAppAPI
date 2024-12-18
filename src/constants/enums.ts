@@ -113,7 +113,7 @@ export enum NotificationType {
   Admin = 'Admin',
   Health = 'Health'
 }
-export enum ContactStatus {
+export enum ReportStatus {
   Read = 'Read',
   Unread = 'Unread',
   Responded = 'Responded'
@@ -123,10 +123,10 @@ export enum HealthTrackingType {
   Calories_Burned = 'Calories Burned'
 }
 export enum HealthActivityQueryType {
-  All = 'all',
-  Water = 'water',
-  Consumed = 'consumed',
-  Burned = 'burned'
+  All = 'All',
+  Water = 'Water',
+  Consumed = 'Consumed',
+  Burned = 'Burned'
 }
 
 export enum MealQueryType {
@@ -163,4 +163,18 @@ export enum ChallengeQueryTypeFilter {
   Fitness = 'Fitness',
   Eating = 'Eating',
   Combo = 'Combo'
+}
+export enum GoalDetailStatus {
+  UnStart = 'UnStart',
+  InProgress = 'InProgress',
+  Done = 'Done',
+  Failed = 'Failed'
+}
+
+export enum ActivityLevel {
+  Sedentary = 'sedentary',
+  Light = 'light',
+  Moderate = 'moderate',
+  Active = 'active',
+  VeryActive = 'very_active'
 }

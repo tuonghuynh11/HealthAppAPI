@@ -92,7 +92,10 @@ export const USERS_MESSAGES = {
   UPDATE_HEALTH_ACTIVITY_SUCCESS: 'Update health activity successful',
   UPDATE_HEALTH_ACTIVITY_DETAIL_SUCCESS: 'Update health activity detail successful',
   FAILED_TO_CREATE_HEALTH_TRACKING_DETAIL: 'Failed to create health tracking detail',
-  UPDATE_USER_NOTIFY_SETTINGS_SUCCESS: 'Update user notify settings successful'
+  UPDATE_USER_NOTIFY_SETTINGS_SUCCESS: 'Update user notify settings successful',
+  USER_NOT_ENOUGH_INFO: 'User not available enough information',
+  START_GOAL_SUCCESS: 'Start goals successful',
+  UPDATE_GOAL_STATUS_SUCCESS: 'Update goals status successful'
 } as const
 
 export const PAGINATION_MESSAGES = {
@@ -152,7 +155,9 @@ export const SETS_MESSAGES = {
   INVALID_SET_STATUS: 'Invalid set status',
   INVALID_NUMBER_OF_EXERCISES: 'Invalid number of exercises',
   SET_NAME_EXISTS: 'Set name already exists',
-  CLONE_SETS_SUCCESS: 'Clone sets successful'
+  CLONE_SETS_SUCCESS: 'Clone sets successful',
+  RATING_SUCCESS: 'Rating set successfully',
+  NO_RATING_PERMISSION: 'No permissions for rating this set'
 }
 
 export const FILTER_MESSAGES = {
@@ -243,4 +248,128 @@ export const CHALLENGE_MESSAGES = {
   CHALLENGE_IS_JOINED: 'Challenge is joined',
   ACTIVATE_CHALLENGE_SUCCESS: 'Activate challenge successful',
   DEACTIVATE_CHALLENGE_SUCCESS: 'Deactivate challenge successful'
+}
+export const DISH_MESSAGES = {
+  ADD_DISH_SUCCESS: 'Add dish successful',
+  UPDATE_DISH_SUCCESS: 'Update dish successful',
+  DISH_NOT_FOUND: 'Dish not found',
+  NO_UPDATE_PERMISSION: 'You do not have permission to update this dish',
+  NO_DELETE_PERMISSION: 'You do not have permission to delete this dish',
+  DISH_ALREADY_USED: 'This dish is being used by other users or challenges so you cannot delete it',
+  DELETE_DISH_SUCCESS: 'Delete dish successful',
+  GET_DISH_SUCCESS: 'Get dish successful',
+  NO_GET_PERMISSION: 'You do not have permission to get this dish information',
+  INVALID_DISH_TYPE: 'Invalid dish type',
+  DISH_EXISTS: 'Dish already exists',
+  GET_ALL_DISH_SUCCESS: 'Get all dish successful',
+  DISH_IS_USED: 'Dish is used',
+  INVALID_DISH_CATEGORY: 'Invalid dish category',
+  INVALID_DISH_CATEGORY_FILTER: 'Invalid dish category filter',
+  CLONE_DISH_SUCCESS: 'Clone dish successful',
+  RATING_SUCCESS: 'Rating successful',
+  NO_RATING_PERMISSION: 'No permission for rating this dish'
+}
+export const INGREDIENT_MESSAGES = {
+  ADD_INGREDIENT_SUCCESS: 'Add ingredient successful',
+  UPDATE_INGREDIENT_SUCCESS: 'Update ingredient successful',
+  INGREDIENT_NOT_FOUND: 'Ingredient not found',
+  NO_UPDATE_PERMISSION: 'You do not have permission to update this ingredient',
+  NO_DELETE_PERMISSION: 'You do not have permission to delete this ingredient',
+  INGREDIENT_ALREADY_USED: 'This ingredient is being used by other users or challenges so you cannot delete it',
+  DELETE_INGREDIENT_SUCCESS: 'Delete ingredient successful',
+  GET_INGREDIENT_SUCCESS: 'Get ingredient successful',
+  NO_GET_PERMISSION: 'You do not have permission to get this ingredient information',
+  INVALID_INGREDIENT_TYPE: 'Invalid ingredient type',
+  INGREDIENT_EXISTS: 'Ingredient already exists',
+  GET_ALL_INGREDIENT_SUCCESS: 'Get all ingredient successful',
+  INGREDIENT_IS_USED: 'Ingredient is used',
+  INVALID_INGREDIENT_CATEGORY: 'Invalid ingredient category',
+  INVALID_INGREDIENT_CATEGORY_FILTER: 'Invalid ingredient category filter',
+  CLONE_INGREDIENT_SUCCESS: 'Clone ingredient successful',
+  SOME_INGREDIENTS_NOT_FOUND: 'Some ingredients are not found'
+}
+
+export const DISH_INGREDIENT_MESSAGES = {
+  ADD_DISH_INGREDIENT_SUCCESS: 'Add dish ingredient successful',
+  UPDATE_DISH_INGREDIENT_SUCCESS: 'Update dish ingredient successful',
+  DISH_INGREDIENT_NOT_FOUND: 'Dish ingredient not found',
+  NO_UPDATE_PERMISSION: 'You do not have permission to update this dish ingredient',
+  NO_DELETE_PERMISSION: 'You do not have permission to delete this dish ingredient',
+  DISH_INGREDIENT_ALREADY_USED:
+    'This dish ingredient is being used by other users or challenges so you cannot delete it',
+  DELETE_DISH_INGREDIENT_SUCCESS: 'Delete dish ingredient successful',
+  GET_DISH_INGREDIENT_SUCCESS: 'Get dish ingredient successful',
+  NO_GET_PERMISSION: 'You do not have permission to get this dish ingredient information',
+  INVALID_DISH_INGREDIENT_TYPE: 'Invalid dish ingredient type',
+  DISH_INGREDIENT_EXISTS: 'Dish ingredient already exists',
+  GET_ALL_DISH_INGREDIENT_SUCCESS: 'Get all dish ingredient successful',
+  DISH_INGREDIENT_IS_USED: 'Dish ingredient is used',
+  INVALID_DISH_INGREDIENT_STATUS: 'Invalid dish ingredient status',
+  NO_ADD_PERMISSIONS: 'You do not have permission to add this dish ingredient'
+}
+
+export const HEALTH_TRACKING_MESSAGES = {
+  ADD_HEALTH_TRACKING_SUCCESS: 'Add health tracking successful',
+  UPDATE_HEALTH_TRACKING_SUCCESS: 'Update health tracking successful',
+  HEALTH_TRACKING_NOT_FOUND: 'Health tracking not found',
+  NO_UPDATE_PERMISSION: 'You do not have permission to update this health tracking',
+  NO_DELETE_PERMISSION: 'You do not have permission to delete this health tracking',
+  HEALTH_TRACKING_ALREADY_USED:
+    'This health tracking is being used by other users or challenges so you cannot delete it',
+  DELETE_HEALTH_TRACKING_SUCCESS: 'Delete health tracking successful',
+  GET_HEALTH_TRACKING_SUCCESSW: 'Get health tracking successful',
+  NO_GET_PERMISSION: 'You do not have permission to get this health tracking information',
+  INVALID_HEALTH_TRACKING_TYPE: 'Invalid health tracking type',
+  HEALTH_TRACKING_EXISTS: 'Health tracking already exists',
+  GET_ALL_HEALTH_TRACKING_SUCCESS: 'Get all health tracking successful',
+  HEALTH_TRACKING_IS_USED: 'Health tracking is used',
+  INVALID_HEALTH_TRACKING_STATUS: 'Invalid health tracking status',
+  ADD_HEALTH_TRACKING_DETAIL_SUCCESS: 'Add health tracking detail successful',
+  DELETE_HEALTH_TRACKING_DETAIL_SUCCESS: 'Delete health tracking detail successful'
+}
+export const RECOMMEND_MESSAGES = {
+  CREATE_CALORIE_AND_TIME_TO_GOAL_RECOMMEND_FOR_USER_SUCCESS:
+    'Create calorie and time to goal recommend for user successful'
+}
+
+export const REPORT_MESSAGES = {
+  ADD_REPORT_SUCCESS: 'Add report successful',
+  REPORT_NOT_FOUND: 'Report not found',
+  NO_DELETE_PERMISSION: 'You do not have permission to delete this report',
+  DELETE_REPORT_SUCCESS: 'Delete report successful',
+  GET_REPORT_SUCCESS: 'Get report successful',
+  NO_GET_PERMISSION: 'You do not have permission to get this report information',
+  INVALID_REPORT_TYPE: 'Invalid report type',
+  REPORT_EXISTS: 'Report already exists',
+  GET_ALL_REPORT_SUCCESS: 'Get all report successful',
+  REPORT_IS_USED: 'Report is used',
+  READ_REPORT_SUCCESS: 'Read report successful',
+  SOME_REPORT_NOT_FOUND: 'Some reports are not found'
+}
+
+export const CHAT_MESSAGES = {
+  ADD_CHAT_SUCCESS: 'Add chat successful',
+  UPDATE_CHAT_SUCCESS: 'Update chat successful',
+  CHAT_NOT_FOUND: 'Chat not found',
+  NO_UPDATE_PERMISSION: 'You do not have permission to update this chat',
+  NO_DELETE_PERMISSION: 'You do not have permission to delete this chat',
+  CHAT_ALREADY_USED: 'This chat is being used by other users or challenges so you cannot delete it',
+  DELETE_CHAT_SUCCESS: 'Delete chat successful',
+  GET_CHAT_SUCCESS: 'Get chat successful',
+  NO_GET_PERMISSION: 'You do not have permission to get this chat information',
+  INVALID_CHAT_TYPE: 'Invalid chat type',
+  CHAT_EXISTS: 'Chat already exists',
+  GET_ALL_CHAT_SUCCESS: 'Get all chat successful',
+  CHAT_IS_USED: 'Chat is used',
+  INVALID_CHAT_CATEGORY: 'Invalid chat category',
+  INVALID_CHAT_CATEGORY_FILTER: 'Invalid chat category filter',
+  CLONE_CHAT_SUCCESS: 'Clone chat successful',
+  RATING_SUCCESS: 'Rating successful',
+  NO_RATING_PERMISSION: 'No permission for rating this chat',
+  SEND_MESSAGE_SUCCESS: 'Send message successful',
+  CHAT_ROOM_NOT_FOUND: 'Chat room not found',
+  CREATE_CHAT_ROOM_SUCCESS: 'Create chat room successful',
+  DELETE_CHAT_ROOM_SUCCESS: 'Delete chat room successful',
+  GET_ALL_CHAT_ROOM_SUCCESS: 'Get all chat room successful',
+  GET_CHAT_MESSAGES_SUCCESS: 'Get chat messages successful'
 }

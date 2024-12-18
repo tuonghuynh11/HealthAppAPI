@@ -1,9 +1,8 @@
 import { ObjectId } from 'mongodb'
-import Ingredients from './Ingredients.schema'
 
 interface DishesIngredientsType {
   _id?: ObjectId
-  ingredient: Ingredients
+  ingredientId: string
   quantity: number
   unit: string
   created_at?: Date
@@ -12,7 +11,7 @@ interface DishesIngredientsType {
 
 export default class DishesIngredients {
   _id?: ObjectId
-  ingredient: Ingredients
+  ingredientId: ObjectId
   quantity: number
   unit: string
   created_at?: Date
@@ -21,7 +20,7 @@ export default class DishesIngredients {
   constructor(dishesIngredientsType: DishesIngredientsType) {
     const date = new Date()
     this._id = dishesIngredientsType._id
-    this.ingredient = dishesIngredientsType.ingredient
+    this.ingredientId = new ObjectId(dishesIngredientsType.ingredientId)
     this.quantity = dishesIngredientsType.quantity
     this.unit = dishesIngredientsType.unit
     this.created_at = dishesIngredientsType.created_at || date
