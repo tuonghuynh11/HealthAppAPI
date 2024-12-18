@@ -7,6 +7,7 @@ interface ExercisesType {
   description: string
   category: ExerciseCategories
   calories_burn_per_minutes: number
+  rating?: number
   image: string
   video: string
   created_at?: Date
@@ -19,6 +20,7 @@ export default class Exercises {
   description: string
   category: ExerciseCategories
   calories_burn_per_minutes: number
+  rating?: number
   image: string
   video: string
   created_at?: Date
@@ -35,5 +37,6 @@ export default class Exercises {
     this.video = exercise.video
     this.created_at = exercise.created_at || date
     this.updated_at = exercise.updated_at || date
+    this.rating = exercise.rating || 0
   }
 }

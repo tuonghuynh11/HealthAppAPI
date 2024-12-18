@@ -135,7 +135,8 @@ export const EXERCISE_MESSAGES = {
   EXERCISE_EXISTS: 'Exercise already exists',
   GET_ALL_EXERCISE_SUCCESS: 'Get all exercise successful',
   EXERCISE_IS_USED: 'Exercise is used',
-  EXERCISE_NOT_EXISTS: 'Exercise not exists'
+  EXERCISE_NOT_EXISTS: 'Exercise not exists',
+  RATING_EXERCISE_SUCCESS: 'Rating exercise successful'
 }
 
 export const SETS_MESSAGES = {
@@ -372,4 +373,10 @@ export const CHAT_MESSAGES = {
   DELETE_CHAT_ROOM_SUCCESS: 'Delete chat room successful',
   GET_ALL_CHAT_ROOM_SUCCESS: 'Get all chat room successful',
   GET_CHAT_MESSAGES_SUCCESS: 'Get chat messages successful'
+}
+
+export const STATISTIC_MESSAGES = {
+  GET_STATISTIC_SUCCESS: 'Get statistic successful',
+  GET_ALL_STATISTIC_SUCCESS: 'Get all statistic successful',
+  GET_TOP_STATISTIC_SUCCESS: 'Get top statistic successful'
 }

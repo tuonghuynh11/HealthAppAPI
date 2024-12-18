@@ -4,6 +4,7 @@ import {
   deleteExerciseController,
   getAllExerciseController,
   getExerciseByIdController,
+  ratingExerciseController,
   searchExercisesController,
   updateExerciseController
 } from '~/controllers/exercises.controllers'
@@ -111,6 +112,21 @@ exercisesRouter.delete(
   verifiedUSerValidator,
   adminRoleValidator,
   wrapRequestHandler(deleteExerciseController)
+)
+
+/**
+ * Description: Rating Exercise
+ * Path: /:id/rating
+ * Method: Post
+ * Body: {
+ *  value: number
+ * }
+ * **/
+exercisesRouter.post(
+  '/:id/rating',
+  accessTokenValidator,
+  verifiedUSerValidator,
+  wrapRequestHandler(ratingExerciseController)
 )
 
 export default exercisesRouter

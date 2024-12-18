@@ -78,3 +78,12 @@ export const deleteExerciseController = async (req: Request<ParamsDictionary, an
     message: EXERCISE_MESSAGES.DELETE_EXERCISE_SUCCESS
   })
 }
+export const ratingExerciseController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
+  const { id } = req.params
+  const { value } = req.body
+  const result = await exerciseService.rating({ id, value })
+
+  return res.json({
+    message: EXERCISE_MESSAGES.RATING_EXERCISE_SUCCESS
+  })
+}
