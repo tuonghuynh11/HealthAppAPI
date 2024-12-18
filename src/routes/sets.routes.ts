@@ -4,6 +4,7 @@ import {
   cloneSetController,
   deleteSetsController,
   getSetByIdController,
+  ratingSetController,
   searchSetsController,
   updateSetController
 } from '~/controllers/sets.controllers'
@@ -53,6 +54,13 @@ setsRouter.get('/:id', accessTokenValidator, verifiedUSerValidator, wrapRequestH
  * }
  * **/
 setsRouter.post('/', accessTokenValidator, verifiedUSerValidator, addSetValidator, wrapRequestHandler(addSetController))
+/**
+ * Description: Rating set
+ * Path: /:id/rating
+ * Method: Post
+ * Body:
+ * **/
+setsRouter.post('/:id/rating', accessTokenValidator, verifiedUSerValidator, wrapRequestHandler(ratingSetController))
 
 /**
  * Description: Update set

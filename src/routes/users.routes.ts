@@ -5,6 +5,7 @@ import {
   addWaterActivityController,
   banUserController,
   changePasswordController,
+  createCalorieAndTimeToGoalRecommendController,
   forgotPasswordController,
   getAllUserController,
   getHealthTrackingController,
@@ -16,7 +17,9 @@ import {
   registerController,
   resendVerifyEmailController,
   resetPasswordTokenController,
+  startGoalController,
   unBanUserController,
+  updateGoalStatusController,
   updateMeController,
   updateUserNotifyController,
   verifyEmailController,
@@ -178,7 +181,8 @@ usersRouter.patch(
     'height',
     'weight',
     'goal_weight',
-    'level'
+    'level',
+    'activityLevel'
   ]),
   wrapRequestHandler(updateMeController)
 )
@@ -306,4 +310,36 @@ usersRouter.patch(
   wrapRequestHandler(updateUserNotifyController)
 )
 
+/**
+ * Description: Create recommendation
+ * Path: /recommend
+ * Method: Post
+ * Body: {
+ *
+ * }
+ * **/
+usersRouter.post(
+  '/recommend',
+  accessTokenValidator,
+  verifiedUSerValidator,
+  wrapRequestHandler(createCalorieAndTimeToGoalRecommendController)
+)
+/**
+ * Description: Start goal
+ * Path: /goal/start
+ * Method: Post
+ * Body: {
+ *
+ * }
+ * **/
+usersRouter.post('/goal/start', accessTokenValidator, verifiedUSerValidator, wrapRequestHandler(startGoalController))
+/**
+ * Description: Update goal status
+ * Path: /goal
+ * Method: Put
+ * Body: {
+ *  status :GoalDetailStatus
+ * }
+ * **/
+usersRouter.put('/goal', accessTokenValidator, verifiedUSerValidator, wrapRequestHandler(updateGoalStatusController))
 export default usersRouter

@@ -13,6 +13,11 @@ import SetExercises from '~/models/schemas/SetExercises.schema'
 import Sets from '~/models/schemas/Sets.schema'
 import WorkoutPlanDetails from '~/models/schemas/WorkoutPlanDetails.schema'
 import WorkoutPlans from '~/models/schemas/WorkoutPlans.schema'
+import Dishes from '~/models/schemas/Dishes.schema'
+import Ingredients from '~/models/schemas/Ingredients.schema'
+import Reports from '~/models/schemas/Report.schema'
+import ChatRoom from '~/models/schemas/ChatRoom.schema'
+import ChatDetail from '~/models/schemas/ChatDetail.schema'
 dotenv.config()
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.dlxrr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`
 
@@ -82,6 +87,21 @@ class DatabaseService {
   }
   get workoutPlans(): Collection<WorkoutPlans> {
     return this.db.collection(envConfig.dbWorkoutPlansCollection as string)
+  }
+  get dishes(): Collection<Dishes> {
+    return this.db.collection(envConfig.dbDishesCollection as string)
+  }
+  get ingredients(): Collection<Ingredients> {
+    return this.db.collection(envConfig.dbIngredientsCollection as string)
+  }
+  get reports(): Collection<Reports> {
+    return this.db.collection(envConfig.dbReportsCollection as string)
+  }
+  get chatRooms(): Collection<ChatRoom> {
+    return this.db.collection(envConfig.dbChatRoomsCollection as string)
+  }
+  get chatDetails(): Collection<ChatDetail> {
+    return this.db.collection(envConfig.dbChatDetailsCollection as string)
   }
 }
 const databaseService = new DatabaseService()

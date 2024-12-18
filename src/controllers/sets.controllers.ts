@@ -42,6 +42,14 @@ export const addSetController = async (req: Request<ParamsDictionary, any, SetRe
     set: result
   })
 }
+export const ratingSetController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
+  const { id } = req.params
+  const { value } = req.body
+  const result = await setService.rating({ id, value: Number(value) })
+  return res.json({
+    message: SETS_MESSAGES.RATING_SUCCESS
+  })
+}
 
 export const updateSetController = async (req: Request<ParamsDictionary, any, UpdateSetReqBody>, res: Response) => {
   const { id } = req.params

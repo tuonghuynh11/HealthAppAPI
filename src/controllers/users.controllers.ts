@@ -3,7 +3,7 @@ import { ParamsDictionary } from 'express-serve-static-core'
 import { ObjectId } from 'mongodb'
 import { HealthActivityQueryType, UserRole, UserVerifyStatus } from '~/constants/enums'
 import HTTP_STATUS from '~/constants/httpStatus'
-import { USERS_MESSAGES } from '~/constants/messages'
+import { RECOMMEND_MESSAGES, USERS_MESSAGES } from '~/constants/messages'
 import { HealthTrackingBody } from '~/models/requests/HealthTracking.requests'
 import { HealthTrackingDetailBody } from '~/models/requests/HealthTrackingDetail.requests'
 import {
@@ -27,6 +27,7 @@ import User from '~/models/schemas/User.schema'
 import databaseService from '~/services/database.services'
 import healthTrackingService from '~/services/healthTracking.services'
 import healthTrackingDetailService from '~/services/healthTrackingDetail.services'
+import recommendService from '~/services/recommend.services'
 import userService from '~/services/users.services'
 import waterService from '~/services/water.services'
 
@@ -295,5 +296,34 @@ export const addHealthTrackingDetailController = async (
   await healthTrackingDetailService.add({ user_id, healthTrackingDetail: req.body })
   return res.json({
     message: USERS_MESSAGES.UPDATE_HEALTH_ACTIVITY_DETAIL_SUCCESS
+  })
+}
+export const createCalorieAndTimeToGoalRecommendController = async (
+  req: Request<ParamsDictionary, any, any>,
+  res: Response
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload
+
+  const response = await recommendService.createCalorieAndTimeToGoalRecommendForUser({ user_id })
+  return res.json({
+    message: RECOMMEND_MESSAGES.CREATE_CALORIE_AND_TIME_TO_GOAL_RECOMMEND_FOR_USER_SUCCESS,
+    result: response
+  })
+}
+export const startGoalController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
+  const { user_id } = req.decoded_authorization as TokenPayload
+
+  const response = await userService.startGoal({ user_id })
+  return res.json({
+    message: USERS_MESSAGES.START_GOAL_SUCCESS
+  })
+}
+export const updateGoalStatusController = async (req: Request<ParamsDictionary, any, any>, res: Response) => {
+  const { user_id } = req.decoded_authorization as TokenPayload
+  const { status } = req.body
+  const response = await userService.updateGoalStatus({ user_id, status })
+  return res.json({
+    message: USERS_MESSAGES.UPDATE_GOAL_STATUS_SUCCESS,
+    result: response
   })
 }
