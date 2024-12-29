@@ -330,7 +330,9 @@ export const HEALTH_TRACKING_MESSAGES = {
 }
 export const RECOMMEND_MESSAGES = {
   CREATE_CALORIE_AND_TIME_TO_GOAL_RECOMMEND_FOR_USER_SUCCESS:
-    'Create calorie and time to goal recommend for user successful'
+    'Create calorie and time to goal recommend for user successful',
+  GET_DISHES_RECOMMEND_FOR_USER_SUCCESS: 'Get dishes recommend for user successful',
+  GET_WORKOUT_PLANS_RECOMMEND_FOR_USER_SUCCESS: 'Get workout plans recommend for user successful'
 }
 
 export const REPORT_MESSAGES = {
@@ -379,4 +381,39 @@ export const STATISTIC_MESSAGES = {
   GET_STATISTIC_SUCCESS: 'Get statistic successful',
   GET_ALL_STATISTIC_SUCCESS: 'Get all statistic successful',
   GET_TOP_STATISTIC_SUCCESS: 'Get top statistic successful'
+}
+
+export const FRUIT_MESSAGES = {
+  GET_FRUIT_SUCCESS: 'Get fruit successful',
+  GET_ALL_FRUIT_SUCCESS: 'Get all fruit successful',
+  FRUIT_NOT_FOUND: 'Fruit not found'
+}
+
+export const COMMON_MESSAGES = {
+  'MSG 1': 'Incorrect username or password',
+  'MSG 2': "Email doesn't exist",
+  'MSG 3': 'OTP code is invalid',
+  'MSG 4': 'Your new password doesn’t meet the required format',
+  'MSG 5': 'Email Already Registered',
+  'MSG 6': 'Username Already Taken',
+  'MSG 7': 'Height value invalid',
+  'MSG 8': 'Weight value invalid',
+  'MSG 9': 'Weight Goal value invalid',
+  'MSG 10': 'Health Data Not Found',
+  'MSG 11': 'Total calories exceed the allowable calories of the meal',
+  'MSG 12': 'Calories not enough',
+  'MSG 13': 'Some fields are empty',
+  'MSG 14': 'Ingredient not found',
+  'MSG 15': 'Total calories exceed the allowable calories of the workout plan',
+  'MSG 16': 'Start Date must be less than End Date',
+  'MSG 17': 'This challenge has ended. Check out other challenges!',
+  'MSG 18': "Congratulations! You've completed the challenge! Check your award",
+  'MSG 19': 'Save successfully!',
+  'MSG 20': 'Send successfully!',
+  'MSG 21': 'There are something wrong when sending the message, please try again later',
+  'MSG 22': 'No information found',
+  'MSG 23': 'Email is invalid',
+  'MSG 24': 'Password is invalid',
+  'MSG 25': 'Confirm Password is invalid',
+  'MSG 26': 'Contact message is invalid'
 }

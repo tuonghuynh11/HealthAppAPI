@@ -17,6 +17,8 @@ import ingredientsRouter from './ingredients.routes'
 import reportsRouter from './reports.routes'
 import chatsRouter from './chat.routes'
 import statisticsRouter from './statistics.routes'
+import fruitsRouter from './fruits.routes'
+import recommendsRouter from './recommend.routes'
 
 const file = fs.readFileSync(path.resolve('slda-swagger.yaml'), 'utf8')
 const swaggerDocument = YAML.parse(file)
@@ -37,5 +39,7 @@ versionOneRouter.use('/ingredients', ingredientsRouter)
 versionOneRouter.use('/reports', reportsRouter)
 versionOneRouter.use('/chats', chatsRouter)
 versionOneRouter.use('/statistics', statisticsRouter)
+versionOneRouter.use('/fruits', fruitsRouter)
+versionOneRouter.use('/recommends', recommendsRouter)
 
 export { versionOneRouter }
