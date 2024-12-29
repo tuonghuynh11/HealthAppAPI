@@ -6,6 +6,29 @@ import exerciseService from '~/services/exercises.services'
 import { IngredientReqBody, IngredientReqQuery, UpdateIngredientReqBody } from '~/models/requests/Ingredient.requests'
 import ingredientService from '~/services/ingredients.services'
 
+export const searchIngredientExternalController = async (
+  req: Request<ParamsDictionary, any, any, IngredientReqQuery>,
+  res: Response
+) => {
+  const { search, page, limit, sort_by, order_by } = req.query
+  const { ingredients, total } = await ingredientService.search({
+    search: search?.toString(),
+    page,
+    limit,
+    sort_by,
+    order_by
+  })
+  return res.json({
+    message: INGREDIENT_MESSAGES.GET_INGREDIENT_SUCCESS,
+    result: {
+      ingredients,
+      page: Number(page),
+      limit: Number(limit),
+      total_items: total,
+      total_pages: Math.ceil(total / limit)
+    }
+  })
+}
 export const searchIngredientController = async (
   req: Request<ParamsDictionary, any, any, IngredientReqQuery>,
   res: Response

@@ -4,6 +4,7 @@ import {
   deleteIngredientController,
   getIngredientByIdController,
   searchIngredientController,
+  searchIngredientExternalController,
   updateIngredientController
 } from '~/controllers/ingredients.controllers'
 import { filterMiddleware } from '~/middlewares/common.middlewares'
@@ -17,6 +18,19 @@ import { accessTokenValidator, adminRoleValidator, verifiedUSerValidator } from 
 import { UpdateIngredientReqBody } from '~/models/requests/Ingredient.requests'
 import { wrapRequestHandler } from '~/utils/handles'
 const ingredientsRouter = Router()
+
+/**
+ * Description: Search ingredient by name - third party
+ * Path: ?search = "" &page = 1 &limit = 10 & order_by & sort_by
+ * Method: GET
+ * **/
+ingredientsRouter.get(
+  '/external',
+  accessTokenValidator,
+  paginationNavigator,
+  ingredientsSearchValidator,
+  wrapRequestHandler(searchIngredientExternalController)
+)
 
 /**
  * Description: Search ingredient by name

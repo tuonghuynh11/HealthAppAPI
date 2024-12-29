@@ -178,3 +178,25 @@ export enum ActivityLevel {
   Active = 'active',
   VeryActive = 'very_active'
 }
+
+export enum Season {
+  spring = 'spring',
+  summer = 'summer',
+  autumn = 'autumn',
+  winter = 'winter'
+}
+
+export enum MealTypeRecommend {
+  breakfast = 'breakfast',
+  lunch = 'lunch',
+  dinner = 'dinner',
+  low_cal = 'low cal'
+}
+
+export enum ActivityLevelRecommend {
+  sedentary = 'sedentary',
+  light = 'light',
+  moderate = 'moderate',
+  active = 'active',
+  very_active = 'very_active'
+}
