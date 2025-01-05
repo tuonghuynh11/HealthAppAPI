@@ -71,13 +71,13 @@ class MealService {
       throw new Error(MEALS_MESSAGES.MEAL_NOT_FOUND)
     }
 
-    if (
-      (!meal.user_id && role !== UserRole.Admin) ||
-      (meal.user_id && role !== UserRole.User) ||
-      (meal.user_id && role === UserRole.User && meal.user_id.toString() !== user_id)
-    ) {
-      throw new Error(MEALS_MESSAGES.NO_GET_PERMISSION)
-    }
+    // if (
+    //   (!meal.user_id && role !== UserRole.Admin) ||
+    //   (meal.user_id && role !== UserRole.User) ||
+    //   (meal.user_id && role === UserRole.User && meal.user_id.toString() !== user_id)
+    // ) {
+    //   throw new Error(MEALS_MESSAGES.NO_GET_PERMISSION)
+    // }
     return meal
   }
   async getMealByDate({ date, user_id }: { date: string; user_id: string }) {
