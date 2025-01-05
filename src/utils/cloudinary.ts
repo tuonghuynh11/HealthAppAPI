@@ -22,7 +22,27 @@ export const uploadVideoToCloudinary = async (video_url: string) => {
       )
     })
     return result.url
-    return
+  } catch (error) {
+    return ''
+  }
+}
+export const uploadImageToCloudinary = async (image_url: string) => {
+  try {
+    const result: any = await new Promise((resolve, reject) => {
+      cloudinary.uploader.upload_large(
+        image_url,
+        {
+          resource_type: 'image'
+        },
+        (error, result) => {
+          if (error) {
+            reject(error)
+          }
+          resolve(result)
+        }
+      )
+    })
+    return result.url
   } catch (error) {
     return ''
   }

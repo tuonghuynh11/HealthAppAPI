@@ -77,7 +77,6 @@ class RecommendService {
     return dishRecommend.data
   }
   async getWorkoutPlanRecommend({ body }: { body: any }) {
-    console.log('body: ' + JSON.stringify(body, null, 2))
     const formData = new FormData()
     formData.append('height', body.height)
     formData.append('weight', body.weight)
@@ -98,10 +97,11 @@ class RecommendService {
       (item: any, index: number, self: any) => index === self.findIndex((t: any) => t.id === item.id)
     )
 
-    console.log('result: ' + JSON.stringify(result, null, 2))
     // Average amount of calories consumed per day
     const calorie_average = body.gender === 'Male' ? 2500 : 2000
 
+    // calo change per day (calories consumed per day)
+    const calorieChangePerDay = 200
     //  Recommend Calorie And Time To Achieve Goal
     const { totalCalories, daysToGoal } = recommendCalorieAndTimeToAchieveGoal({
       currentWeight: Number(body.weight),
@@ -109,13 +109,13 @@ class RecommendService {
       height: Number(body.height),
       age: Number(body.age),
       gender: body.gender as Gender,
-      activityLevel: ActivityLevel.Light
+      activityLevel: body?.activityLevel || ActivityLevel.Light
     })
 
     // totalCalories là tổng lượng calories thâm hụt
     //  Lượng calories cần thâm hụt mỗi ngày
-    const calorie_deficit_per_day = totalCalories / daysToGoal
-    const calorie_burned_per_day = calorie_average + calorie_deficit_per_day
+
+    const calorie_burned_per_day = calorieChangePerDay
 
     const workout_plan_details = []
 
@@ -159,16 +159,21 @@ class RecommendService {
         estimated_calories_burned += set.estimated_calories_burned
       })
     })
+
+    const today = new Date() // Get the current date
+    const futureDate = new Date() // Create a copy of the current date
+    futureDate.setDate(today.getDate() + daysToGoalInt) // Add 10 days to the current date
     return {
       need: exercisesRecommend.data.need,
       workout_plan: {
-        name: 'Plan Admin',
+        name: 'Plan ' + new Date().getTime(),
         description: '',
         number_of_set: workout_plan_details.length,
         estimated_calories_burned,
         type: WorkoutType.Beginner,
-        start_date: new Date(),
-        end_date: new Date().setDate(new Date().getDate() + daysToGoalInt),
+        start_date: today.toISOString(),
+        end_date: futureDate.toISOString(),
+        estimate_date: daysToGoalInt,
         details: workout_plan_details
       }
     }

@@ -141,7 +141,17 @@ class MealService {
       _id: mealInserted.insertedId
     }
   }
-  async clone({ user_id, meal_ids, role }: { user_id: string; role: UserRole; meal_ids: string[] }) {
+  async clone({
+    user_id,
+    meal_ids,
+    role,
+    date
+  }: {
+    user_id: string
+    role: UserRole
+    meal_ids: string[]
+    date: string
+  }) {
     const meals = await databaseService.meals
       .find({
         _id: {
@@ -153,7 +163,7 @@ class MealService {
       return new Meals({
         ...omit(meal, ['_id', 'user_id']),
         user_id: new ObjectId(user_id),
-        date: meal.date.toISOString()
+        date: date
       })
     })
     const { insertedIds, insertedCount } = await databaseService.meals.insertMany(newMeals)

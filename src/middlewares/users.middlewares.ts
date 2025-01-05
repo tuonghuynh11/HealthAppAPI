@@ -174,6 +174,44 @@ const otpCodeSchema: ParamSchema = {
     }
   }
 }
+const verifyEmailOtpCodeSchema: ParamSchema = {
+  trim: true,
+  custom: {
+    options: async (value, { req }) => {
+      if (!value) {
+        throw new ErrorWithStatus({
+          message: USERS_MESSAGES.OTP_CODE_IS_REQUIRED,
+          status: HTTP_STATUS.UNAUTHORIZED
+        })
+      }
+      const user = await databaseService.users.findOne({
+        email: req.body.email
+      })
+
+      if (!user) {
+        throw new ErrorWithStatus({
+          message: USERS_MESSAGES.USER_NOT_FOUND,
+          status: HTTP_STATUS.UNAUTHORIZED
+        })
+      }
+      if (new Date(user.otp!.expired_at) < new Date()) {
+        throw new ErrorWithStatus({
+          message: USERS_MESSAGES.OTP_CODE_EXPIRED,
+          status: HTTP_STATUS.UNAUTHORIZED
+        })
+      }
+
+      if (user.otp?.code !== value) {
+        throw new ErrorWithStatus({
+          message: USERS_MESSAGES.INVALID_OTP_CODE,
+          status: HTTP_STATUS.UNAUTHORIZED
+        })
+      }
+      req.user = user
+      return true
+    }
+  }
+}
 const imageSchema: ParamSchema = {
   optional: true,
   isString: {
@@ -565,13 +603,40 @@ export const verifyOTPCodeValidator = validate(
     ['body']
   )
 )
+export const verifyEmailValidator = validate(
+  checkSchema(
+    {
+      email: {
+        isEmail: {
+          errorMessage: USERS_MESSAGES.EMAIL_IS_NOT_VALID
+        },
+        trim: true,
+        custom: {
+          options: async (value, { req }) => {
+            const user = await databaseService.users.findOne({ email: value })
+            if (!user) {
+              throw new ErrorWithStatus({
+                message: USERS_MESSAGES.USER_NOT_FOUND,
+                status: HTTP_STATUS.NOT_FOUND
+              })
+            }
+            req.user = user
+            return true
+          }
+        }
+      },
+      otp_code: verifyEmailOtpCodeSchema
+    },
+    ['body']
+  )
+)
 
 export const resetPasswordTokenValidator = validate(
   checkSchema(
     {
-      forgot_password_token: forgotPasswordTokenSchema,
-      password: passwordSchema,
-      confirm_password: confirmPasswordSchema('password')
+      forgot_password_token: forgotPasswordTokenSchema
+      // password: passwordSchema,
+      // confirm_password: confirmPasswordSchema('password')
     },
     ['body']
   )

@@ -64,10 +64,10 @@ export const recommendCalorieAndTimeToAchieveGoal = ({
   const daysToGoal = calculateTimeToGoal(currentWeight, desiredWeight, Math.round((minCalories + maxCalories) / 2))
 
   // Display results
-  Logger.info(`BMR: ${bmr.toFixed(2)} kcal/day`)
-  Logger.info(`TDEE: ${tdee.toFixed(2)} kcal/day`)
-  Logger.info(`Minimum calories to reach goal: ${minCalories.toFixed(2)} kcal/day`)
-  Logger.info(`Maximum calories to reach goal: ${maxCalories.toFixed(2)} kcal/day`)
+  Logger.info(`BMR: ${bmr.toFixed(2)} cal/day`)
+  Logger.info(`TDEE: ${tdee.toFixed(2)} cal/day`)
+  Logger.info(`Minimum calories to reach goal: ${minCalories.toFixed(2)} cal/day`)
+  Logger.info(`Maximum calories to reach goal: ${maxCalories.toFixed(2)} cal/day`)
 
   if (desiredWeight > currentWeight) {
     Logger.info(`Time to gain weight from ${currentWeight} kg to ${desiredWeight} kg: ${daysToGoal.toFixed(2)} days`)
@@ -82,7 +82,7 @@ export const recommendCalorieAndTimeToAchieveGoal = ({
     maxCalories: Math.round(maxCalories),
     totalCalories: Math.round((minCalories + maxCalories) / 2) * daysToGoal, // Tổng thâm hụt caloies
     daysToGoal: Math.round(daysToGoal),
-    unit: 'kcal/day'
+    unit: 'cal/day'
   }
 }
 

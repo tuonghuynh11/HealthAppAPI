@@ -1,5 +1,16 @@
-import dotenv from 'dotenv'
-dotenv.config()
+import { config } from 'dotenv'
+const env = process.env.NODE_ENV?.trim()
+if (!env) {
+  console.log(`Bạn chưa cung cấp biến môi trường NODE_ENV (ví dụ: development, production)`)
+  console.log(`Phát hiện NODE_ENV = ${env}`)
+  process.exit(1)
+}
+console.log(`Phát hiện NODE_ENV = ${env}, vì thế app sẽ dùng file môi trường là ${env}`)
+
+export const isProduction = env === 'production'
+config({
+  path: env ? `.env.${env}` : '.env'
+})
 export const envConfig = {
   port: (process.env.PORT as string) || 4000,
   host: process.env.HOST as string,
