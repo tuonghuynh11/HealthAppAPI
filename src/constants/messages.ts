@@ -95,7 +95,8 @@ export const USERS_MESSAGES = {
   UPDATE_USER_NOTIFY_SETTINGS_SUCCESS: 'Update user notify settings successful',
   USER_NOT_ENOUGH_INFO: 'User not available enough information',
   START_GOAL_SUCCESS: 'Start goals successful',
-  UPDATE_GOAL_STATUS_SUCCESS: 'Update goals status successful'
+  UPDATE_GOAL_STATUS_SUCCESS: 'Update goals status successful',
+  OTP_CODE_IS_REQUIRED: 'OTP code is required'
 } as const
 
 export const PAGINATION_MESSAGES = {

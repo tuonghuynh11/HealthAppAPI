@@ -1,5 +1,3 @@
-import { envConfig } from '~/constants/config'
-
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='
 const Base64 = {
   btoa: (input = '') => {
@@ -45,11 +43,11 @@ const Base64 = {
 }
 
 ////////Send email API
-const createMailOTPForm = (email_verify_link: string) => {
+const createMailOTPForm = (otp_code: string) => {
   const html = `<div style='font-family:Helvetica,Arial,sans-serif; min-width:500px; overflow:auto; line-height:2'>
   <div style='margin:50px auto; width:70%; padding:20px 0 '>
       <div style='border-bottom:1px solid #eee;text-align: center'>
-      <img src="https://res.cloudinary.com/dyvmhxwr6/image/upload/v1730042613/tx5xnpmqlg4xp3yoyy1w.jpg" alt="Logo" style="vertical-align: middle;width:200px;height:200px">
+      <img src="https://res.cloudinary.com/dnlawgtfq/image/upload/v1736055073/dhhpulmyupjkmkf5rufd.jpg" alt="Logo" style="vertical-align: middle;width:200px;height:200px">
       <a style='display:block;font-size: 1.4em; color: #303f9f; text-decoration: none; font-weight: 600;margin-top: 10px;margin-bottom: 10px '>
     
       FreshFit
@@ -57,8 +55,8 @@ const createMailOTPForm = (email_verify_link: string) => {
 
       </div>
       <p style='font-size:1.1em'>Hello You,</p>
-      <p>The system has received a request to verify email. Please click on the link below to continue. Note, the link is only valid for 5 minutes.</p>
-      <h2 style='background:#303f9f; margin:0 auto; width:max-content; padding:0 10px; color:#fff; border-radius:4px; padding: 10px;padding-bottom:15px'><a href=${email_verify_link} style="width:230px;font-family:'Nunito Sans',Arial,Verdana,Helvetica,sans-serif;font-size:14px;line-height:21px;font-weight:600;color:#fff;text-decoration:none;text-align:center;display:inline-block" target="_blank" >Verify Email</a></h2>
+      <p>The system has received a request to verify email. Please enter the code below to continue. Note, the code is only valid for 5 minutes.</p>
+      <h2 style='background:#303f9f; margin:0 auto; width:max-content; padding:0 10px; color:#fff; border-radius:4px; padding: 10px;padding-bottom:15px'>${otp_code}</h2>
 
       <p style='font-size:0.9em;'>Best regard.<br />FreshFit</p>
       <hr style='border:none; border-top:1px solid #eee' />
@@ -75,7 +73,7 @@ const createMailForgotPasswordForm = (otp_code: string) => {
   const html = ` <div style='font-family:Helvetica,Arial,sans-serif; min-width:500px; overflow:auto; line-height:2'>
   <div style='margin:50px auto; width:70%; padding:20px 0 '>
       <div style='border-bottom:1px solid #eee;text-align: center'>
-      <img src="https://res.cloudinary.com/dyvmhxwr6/image/upload/v1730042613/tx5xnpmqlg4xp3yoyy1w.jpg" alt="Logo" style="vertical-align: middle;width:200px;height:200px">
+      <img src="https://res.cloudinary.com/dnlawgtfq/image/upload/v1736055073/dhhpulmyupjkmkf5rufd.jpg" alt="Logo" style="vertical-align: middle;width:200px;height:200px">
       <a style='display:block;font-size: 1.4em; color: #303f9f; text-decoration: none; font-weight: 600;margin-top: 10px;margin-bottom: 10px '>
     
       FreshFit
@@ -95,8 +93,8 @@ const createMailForgotPasswordForm = (otp_code: string) => {
 </div>`
   return html
 }
-export async function sendVerifyEmail({ email, email_verify_token }: { email: string; email_verify_token: string }) {
-  const email_verify_link = `${envConfig.host}/verify-email?email-verify-token=${email_verify_token}`
+export async function sendVerifyEmail({ email, otp_code }: { email: string; otp_code: string }) {
+  // const email_verify_link = `${envConfig.host}/verify-email?email-verify-token=${email_verify_token}`
 
   const MJ_APIKEY_PUBLIC = '97ef95802cb73fd61a383fc8a41491f0'
   const MJ_APIKEY_PRIVATE = '1e860af0fcbefa2ddc4f51d028b1ecff'
@@ -111,7 +109,7 @@ export async function sendVerifyEmail({ email, email_verify_token }: { email: st
       }
     ]
   }
-  mailContent['Html-part'] = createMailOTPForm(email_verify_link)
+  mailContent['Html-part'] = createMailOTPForm(otp_code)
   // body: JSON.stringify({
   //   FromEmail: "manhphuoc58@gmail.com",
   //   FromName: "Cinema Master",

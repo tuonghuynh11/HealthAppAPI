@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { Request } from 'express'
-import formidable, { File } from 'formidable'
-import { UPLOAD_IMAGE_TEMP_DIR, UPLOAD_VIDEO_DIR, UPLOAD_VIDEO_TEMP_DIR } from '~/constants/dir'
+import { File } from 'formidable'
+import { UPLOAD_IMAGE_DIR, UPLOAD_IMAGE_TEMP_DIR, UPLOAD_VIDEO_DIR, UPLOAD_VIDEO_TEMP_DIR } from '~/constants/dir'
 import path from 'path'
 export const initFolder = () => {
   ;[UPLOAD_IMAGE_TEMP_DIR, UPLOAD_VIDEO_TEMP_DIR].forEach((dir) => {
@@ -62,6 +62,51 @@ export const handleUploadVideo = async (req: Request) => {
         video.filepath = video.filepath + '.' + extension
       })
       resolve(files.video as File[])
+    })
+  })
+}
+
+export const handleUploadImage = async (req: Request) => {
+  // Cách sử dụng ESmodules trong project dùng CommonJS
+  const formidable = (await import('formidable')).default
+  const idName = new Date().getTime().toString()
+  const folderPath = path.resolve(UPLOAD_IMAGE_DIR, idName)
+  fs.mkdirSync(folderPath)
+  const form = formidable({
+    uploadDir: folderPath, //Thư mục lưu ảnh tạm khi client upload
+    maxFiles: 4, //Số file được gửi lên
+    keepExtensions: true, //Giữ lại đuôi mở rộng của file,
+    maxFileSize: 2 * 1024 * 1024, //2MB,
+    maxTotalFileSize: 2 * 1024 * 1024 * 4, //8MB
+
+    filter: function ({ name, originalFilename, mimetype }) {
+      const valid = name === 'image' && Boolean(mimetype?.includes('image'))
+      if (!valid) {
+        form.emit('error' as any, new Error('File type is not valid') as any)
+      }
+      return valid
+    },
+    filename: function () {
+      return idName
+    }
+  })
+  return new Promise<File[]>((resolve, reject) => {
+    form.parse(req, async (err, fields, files) => {
+      if (err) {
+        return reject(err)
+      }
+      // eslint-disable-next-line no-extra-boolean-cast
+      if (!Boolean(files.image)) {
+        return reject(new Error('File is empty'))
+      }
+      const images = files.image
+      images?.forEach((image) => {
+        const extension = getExtension(image.originalFilename as string)
+        fs.renameSync(image.filepath, image.filepath + '.' + extension)
+        image.newFilename = image.newFilename + '.' + extension
+        image.filepath = image.filepath + '.' + extension
+      })
+      resolve(files.image as File[])
     })
   })
 }

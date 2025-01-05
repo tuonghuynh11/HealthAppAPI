@@ -119,17 +119,22 @@ class UserService {
   }
   async register(payload: RegisterReqBody) {
     const user_id = new ObjectId()
-    const email_verify_token = await this.signEmailVerifyToken({
-      user_id: user_id.toString(),
-      verify: UserVerifyStatus.Unverified
-    })
+    // const email_verify_token = await this.signEmailVerifyToken({
+    //   user_id: user_id.toString(),
+    //   verify: UserVerifyStatus.Unverified
+    // })
+    const otp_code = generateOTP(4)
     const result = await databaseService.users.insertOne(
       new User({
         ...payload,
-        email_verify_token: email_verify_token,
+        // email_verify_token: email_verify_token,
         _id: user_id,
         role: UserRole.User,
-        password: hashPassword(payload.password)
+        password: hashPassword(payload.password),
+        otp: new OTP({
+          code: otp_code,
+          expired_at: new Date(Date.now() + 5 * 60000)
+        })
       })
     )
     const [access_token, refresh_token] = await this.signAccessTokenAndRefreshToken({
@@ -142,8 +147,9 @@ class UserService {
       new RefreshToken({ token: refresh_token, user_id: new ObjectId(user_id), iat, exp })
     )
 
-    console.log('email_verify_token', email_verify_token)
-    sendVerifyEmail({ email: payload.email, email_verify_token: email_verify_token })
+    // console.log('email_verify_token', email_verify_token)
+    console.log('OTP code: ', otp_code)
+    sendVerifyEmail({ email: payload.email, otp_code: otp_code })
     return { access_token, refresh_token }
   }
   async checkEmailExists(email: string) {
@@ -382,6 +388,7 @@ class UserService {
           //   // updated_at: new Date() //Thời gian chạy câu lệnh này
           // },
           $set: {
+            otp: null,
             email_verify_token: '',
             verify: UserVerifyStatus.Verified,
             updated_at: '$$NOW' //Thời gian mà mongodb cập nhật
@@ -402,22 +409,38 @@ class UserService {
   }
 
   async resendVerifyEmail(user_id: string, email: string) {
-    const email_verify_token = await this.signEmailVerifyToken({ user_id, verify: UserVerifyStatus.Unverified })
+    // const email_verify_token = await this.signEmailVerifyToken({ user_id, verify: UserVerifyStatus.Unverified })
     console.log('Resend verify email: ', user_id)
-
-    //Cập nhật lại email_verify_token trong document
+    const otpCode = generateOTP(4)
     await databaseService.users.updateOne(
-      { _id: new ObjectId(user_id) },
+      {
+        _id: new ObjectId(user_id)
+      },
       {
         $set: {
-          email_verify_token: email_verify_token
+          otp: new OTP({
+            code: otpCode,
+            expired_at: new Date(Date.now() + 5 * 60000)
+          })
         },
         $currentDate: {
-          updated_at: true //Thời gian mà mongodb cập nhật
+          updated_at: true
         }
       }
     )
-    sendVerifyEmail({ email: email, email_verify_token: email_verify_token })
+    //Cập nhật lại email_verify_token trong document
+    // await databaseService.users.updateOne(
+    //   { _id: new ObjectId(user_id) },
+    //   {
+    //     $set: {
+    //       email_verify_token: email_verify_token
+    //     },
+    //     $currentDate: {
+    //       updated_at: true //Thời gian mà mongodb cập nhật
+    //     }
+    //   }
+    // )
+    sendVerifyEmail({ email: email, otp_code: otpCode })
     return {
       message: USERS_MESSAGES.RESEND_VERIFY_EMAIL_SUCCESS
     }
@@ -456,6 +479,7 @@ class UserService {
       [
         {
           $set: {
+            otp: null,
             password: hashPassword(password),
             forgot_password_token: '',
             updated_at: '$$NOW'

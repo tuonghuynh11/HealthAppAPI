@@ -11,6 +11,7 @@ import { SetType } from '~/constants/enums'
 
 interface ExerciseData {
   calories_per_rep: number
+  calories_per_minute: number
   reps_per_round: number
   time_per_round: number // in minutes
   rest_time_per_round: number // in minutes
@@ -141,25 +142,85 @@ export const IsWeightGoalValid = async (weightGoal: number) => {
 function calculateExercisePlan(exerciseName: string, caloriesToBurn: number): ExercisePlan {
   // Predefined values for exercises
   const exerciseData: { [key: string]: ExerciseData } = {
-    'Push Up': { calories_per_rep: 0.25, reps_per_round: 20, time_per_round: 5, rest_time_per_round: 1 },
-    "Deadlift": { calories_per_rep: 0.5, reps_per_round: 10, time_per_round: 6, rest_time_per_round: 1 },
-    "Squats": { calories_per_rep: 0.3, reps_per_round: 15, time_per_round: 4, rest_time_per_round: 1 },
-    "Plank": { calories_per_rep: 0.1, reps_per_round: 1, time_per_round: 30, rest_time_per_round: 1 }, // Plank held for time
-    "Burpees": { calories_per_rep: 0.6, reps_per_round: 10, time_per_round: 8, rest_time_per_round: 1 },
-    'Jumping Jacks': { calories_per_rep: 0.2, reps_per_round: 30, time_per_round: 3, rest_time_per_round: 1 },
-    'Mountain Climbers': { calories_per_rep: 0.3, reps_per_round: 20, time_per_round: 5, rest_time_per_round: 1 },
-    'Pull Up': { calories_per_rep: 0.8, reps_per_round: 8, time_per_round: 7, rest_time_per_round: 1 },
-    'Bicycle Crunches': { calories_per_rep: 0.15, reps_per_round: 20, time_per_round: 4, rest_time_per_round: 1 },
-    'Leg Raise': { calories_per_rep: 0.2, reps_per_round: 15, time_per_round: 5, rest_time_per_round: 1 }
+    'Push Up': {
+      calories_per_rep: 0.25,
+      reps_per_round: 20,
+      time_per_round: 5,
+      rest_time_per_round: 1,
+      calories_per_minute: 0
+    },
+    "Deadlift": {
+      calories_per_rep: 0.5,
+      reps_per_round: 10,
+      time_per_round: 6,
+      rest_time_per_round: 1,
+      calories_per_minute: 0
+    },
+    "Squats": {
+      calories_per_rep: 0.3,
+      reps_per_round: 15,
+      time_per_round: 4,
+      rest_time_per_round: 1,
+      calories_per_minute: 0
+    },
+    "Plank": {
+      calories_per_rep: 0.1,
+      calories_per_minute: 2,
+      reps_per_round: 1,
+      time_per_round: 1,
+      rest_time_per_round: 1
+    }, // Plank held for time
+    "Burpees": {
+      calories_per_rep: 0.6,
+      reps_per_round: 10,
+      time_per_round: 8,
+      rest_time_per_round: 1,
+      calories_per_minute: 0
+    },
+    'Jumping Jacks': {
+      calories_per_rep: 0.2,
+      reps_per_round: 30,
+      time_per_round: 3,
+      rest_time_per_round: 1,
+      calories_per_minute: 0
+    },
+    'Mountain Climbers': {
+      calories_per_rep: 0.3,
+      reps_per_round: 20,
+      time_per_round: 5,
+      rest_time_per_round: 1,
+      calories_per_minute: 0
+    },
+    'Pull Up': {
+      calories_per_rep: 0.8,
+      reps_per_round: 8,
+      time_per_round: 7,
+      rest_time_per_round: 1,
+      calories_per_minute: 0
+    },
+    'Bicycle Crunches': {
+      calories_per_rep: 0.15,
+      reps_per_round: 20,
+      time_per_round: 4,
+      rest_time_per_round: 1,
+      calories_per_minute: 0
+    },
+    'Leg Raise': {
+      calories_per_rep: 0.2,
+      reps_per_round: 15,
+      time_per_round: 5,
+      rest_time_per_round: 1,
+      calories_per_minute: 0
+    }
   }
 
   // Get data for the specified exercise
   const data = exerciseData[exerciseName]
   if (data) {
-    const { calories_per_rep, reps_per_round, time_per_round, rest_time_per_round } = data
+    const { calories_per_rep, reps_per_round, time_per_round, rest_time_per_round, calories_per_minute } = data
 
     // Calculate total reps needed
-    const total_reps_needed = caloriesToBurn / calories_per_rep
+    const total_reps_needed = caloriesToBurn / (exerciseName === 'Plank' ? calories_per_minute : calories_per_rep)
 
     // Calculate number of rounds needed
     const rounds_needed = total_reps_needed / reps_per_round
@@ -169,11 +230,11 @@ function calculateExercisePlan(exerciseName: string, caloriesToBurn: number): Ex
 
     return {
       exercise_name: exerciseName,
-      calories_to_burn: caloriesToBurn,
-      total_reps_needed: total_reps_needed,
-      rounds_needed: rounds_needed,
-      total_time_needed: total_time_needed,
-      rest_time_per_round: rest_time_per_round
+      calories_to_burn: Math.round(caloriesToBurn),
+      total_reps_needed: Math.round(total_reps_needed),
+      rounds_needed: Math.round(rounds_needed),
+      total_time_needed: Math.round(total_time_needed),
+      rest_time_per_round: Math.round(rest_time_per_round)
     }
   } else {
     return {
@@ -200,6 +261,7 @@ export const getSetExercises = ({
 }) => {
   const caloriesPerSets = total_calories / number_of_sets
   const caloriesPerExercise = caloriesPerSets / number_exercise_of_set
+  console.log('Calories per exercise: ' + caloriesPerExercise)
   const exercisePlan: any[] = []
   for (let i = 0; i < number_of_sets; i++) {
     const exercises = []
@@ -210,16 +272,20 @@ export const getSetExercises = ({
       }
       const exercise = exercise_list[index]
       const { total_reps_needed, rounds_needed, total_time_needed, rest_time_per_round } = calculateExercisePlan(
-        exercise.name,
+        exercise.exercise,
         caloriesPerExercise
       )
       exercises.push({
         exercise_id: exercise.id,
+        exercise_name: exercise.exercise,
+        image: exercise.image,
+        video: exercise.video,
+        description: exercise.description,
         duration: total_time_needed, // minutes
         reps: total_reps_needed,
         round: rounds_needed,
         rest_per_round: rest_time_per_round, // minutes
-        estimated_calories_burned: caloriesPerExercise // kcal
+        estimated_calories_burned: caloriesPerExercise // cal
       })
       index++
     }

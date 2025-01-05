@@ -30,7 +30,6 @@ import {
   accessTokenValidator,
   adminRoleValidator,
   changePasswordValidator,
-  emailVerifyTokenValidator,
   forgotPasswordValidator,
   loginValidator,
   refreshTokenValidator,
@@ -42,6 +41,7 @@ import {
   userIsOnlineValidator,
   verifiedAdminValidator,
   verifiedUSerValidator,
+  verifyEmailValidator,
   verifyOTPCodeValidator
 } from '~/middlewares/users.middlewares'
 import { paginationNavigator } from '~/middlewares/paginations.middlewares'
@@ -115,18 +115,18 @@ usersRouter.post('/logout', accessTokenValidator, refreshTokenValidator, wrapReq
  * Description: Verify Email
  * Path: /verify-email
  * Method: POST
- * Body: {  email_verify_token:string}
+ * Body: { email:string, otp_code:string}
  * **/
-usersRouter.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(verifyEmailController))
+usersRouter.post('/verify-email', verifyEmailValidator, wrapRequestHandler(verifyEmailController))
 
 /**
  * Description: Resend Verify Email
  * Path: /resend-verify-email
  * Method: POST
  * Header:{Authorization:Bearer <access_token>}
- * Body: {}
+ * Body: {email:string}
  * **/
-usersRouter.post('/resend-verify-email', accessTokenValidator, wrapRequestHandler(resendVerifyEmailController))
+usersRouter.post('/resend-verify-email', wrapRequestHandler(resendVerifyEmailController))
 
 /**
  * Description: Submit email to reset password, send email to user
@@ -170,7 +170,7 @@ usersRouter.get('/me', accessTokenValidator, wrapRequestHandler(getMeController)
 usersRouter.patch(
   '/me',
   accessTokenValidator,
-  verifiedUSerValidator,
+  // verifiedUSerValidator,
   updateMeValidator,
   filterMiddleware<UpdateMeReqBody>([
     'username',

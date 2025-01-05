@@ -1,6 +1,9 @@
 node_modules/
 dist/
 .env
+.env.development
+.env.production
+.env.staging
 # Logs
 logs
 *.log
