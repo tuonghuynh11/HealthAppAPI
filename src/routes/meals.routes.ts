@@ -61,14 +61,10 @@ mealsRouter.post('/', accessTokenValidator, verifiedUSerValidator, wrapRequestHa
  * Description: Clone a System Meal
  * Path: /meals/clone
  * Method: Post
- * Body: [Meal_Id]
+ * Body: {
+ * [Meal_Id]}
  * **/
-mealsRouter.post(
-  '/:meal_id/clone',
-  accessTokenValidator,
-  verifiedUSerValidator,
-  wrapRequestHandler(cloneMealController)
-)
+mealsRouter.post('/clone', accessTokenValidator, verifiedUSerValidator, wrapRequestHandler(cloneMealController))
 
 /**
  * Description: Update Meal

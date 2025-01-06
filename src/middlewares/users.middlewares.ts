@@ -657,7 +657,7 @@ export const updateMeValidator = validate(
   checkSchema(
     {
       username: {
-        notEmpty: false,
+        optional: true,
         trim: true,
         custom: {
           options: async (value, { req }) => {
