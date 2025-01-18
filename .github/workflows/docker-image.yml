@@ -30,20 +30,20 @@ jobs:
       - name: Push Image to Docker Hub
         run: docker push ${{ env.IMAGE_TAG }}
 
-  # deploy_VPS:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #     - name: Executing remote ssh commands using password
-  #       uses: appleboy/ssh-action@v1.0.3
-  #       with:
-  #         host: ${{ secrets.HOST }}
-  #         username: ${{ secrets.HOST_USERNAME }}
-  #         key: ${{ secrets.SSH_KEY }}
-  #         port: ${{ secrets.PORT }}
-  #         script: |
-  #           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-  #           docker pull hmt1/twitter:v5
-  #           docker stop twitter-clone
-  #           docker rm twitter-clone
-  #           docker run -dp 4000:4000 --name twitter-clone --restart unless-stopped -v ~/twitter-clone/uploads:/app/uploads hmt1/twitter:v5
+  deploy_VPS:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USERNAME }}
+          password: ${{ secrets.HOST_PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+            docker pull hmt1/freshfit:v0
+            docker stop freshfit
+            docker rm freshfit
+            docker run -dp 4000:4000 --name freshfit --restart unless-stopped -v ~/freshfit/uploads:/app/uploads hmt1/freshfit:v0
